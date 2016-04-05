@@ -32,6 +32,24 @@
     <string name="ui_setting_unit">Unit Preference</string>
     <string name="ui_setting_select_unit">Select the units</string>
 
+    <string name="ui_setting_unit_preference">Unit Preference</string>
+
+    <string-array name="ui_setting_unit_preValues">
+        <item>
+            Metric (Kilometers)
+        </item>
+        <item>
+            Imperial (Miles)
+        </item>
+    </string-array>
+
+    <string name="ui_setting_comments">Comments</string>
+    <string name="ui_setting_leave_comments">Please enter your comments</string>
+
+    <string name="ui_setting_misc">Misc.</string>
+    <string name="ui_setting_webpage">Webpage</string>
+    <string name="ui_setting_webpage_content">cs.dartmouth.edu/~campbell/cs65/cs65.html</string>
+
 
 
     <!-- MyRuns1-->

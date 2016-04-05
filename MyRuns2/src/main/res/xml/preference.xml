@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+        android:title="@string/ui_setting_account_preference">
+
+        <PreferenceScreen
+            android:title="@string/ui_setting_account_profile"
+            android:summary="@string/ui_setting_account_profile_summay"
+            >
+            <intent android:action="your.action.string">
+            </intent>
+        </PreferenceScreen>
+            <CheckBoxPreference
+            android:key="Privacy Setting"
+            android:title="@string/ui_setting_account_private_setting"
+            android:summary="@string/ui_setting_account_private_content"
+            ></CheckBoxPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/ui_setting_addition">
+        
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -66,6 +66,7 @@
 
     <string-array name="ui_profile_photo_picker_items">
         <item>Take picture from camera</item>
+        <item>Select from gallery</item>
     </string-array>
 
     <!-- SharedPreferences -->

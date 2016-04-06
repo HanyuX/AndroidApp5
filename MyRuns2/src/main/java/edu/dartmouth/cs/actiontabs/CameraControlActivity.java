@@ -39,6 +39,7 @@ public class CameraControlActivity extends Activity {
 	private static final String URI_INSTANCE_STATE_KEY = "saved_uri";
 
 	private Uri mImageCaptureUri;
+//	private Uri mImageCaptureUriCache;
 	private ImageView mImageView;
 	private boolean isTakenFromCamera;
 
@@ -51,6 +52,7 @@ public class CameraControlActivity extends Activity {
 		if (savedInstanceState != null) {
 			mImageCaptureUri = savedInstanceState
 					.getParcelable(URI_INSTANCE_STATE_KEY);
+			Log.d("uri", mImageCaptureUri.getPath());
 			mImageView.setImageURI(mImageCaptureUri);
 			if(mImageCaptureUri == null) {
 				loadSnap();
@@ -123,9 +125,6 @@ public class CameraControlActivity extends Activity {
 			    beginCrop(mImageCaptureUri);
                 break;
             case REQUEST_CODE_FROM_GALLERY:
-
-//                String path = getRealPathFromURI(data.getData());
-//                mImageView.setImageBitmap(BitmapFactory.decodeFile(path));
 				beginCrop(data.getData());
 				break;
 
@@ -176,6 +175,7 @@ public class CameraControlActivity extends Activity {
 				// REQUEST_CODE_TAKE_FROM_CAMERA is an integer tag you
 				// defined to identify the activity in onActivityResult()
 				// when it returns
+
 				startActivityForResult(intent, REQUEST_CODE_TAKE_FROM_CAMERA);
 			} catch (ActivityNotFoundException e) {
 				e.printStackTrace();
@@ -205,7 +205,7 @@ public class CameraControlActivity extends Activity {
 			Bitmap bmap = BitmapFactory.decodeStream(fis);
 			mImageView.setImageBitmap(bmap);
 			fis.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// Default profile photo if no photo saved before.
 			mImageView.setImageResource(R.drawable.default_profile);
 		}
@@ -234,13 +234,13 @@ public class CameraControlActivity extends Activity {
 	 * have to.
 	 *  **/
 	private void beginCrop(Uri source) {
-		Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"+String.valueOf(System.currentTimeMillis())));
+		File file = new File(getCacheDir(), "cropped"+String.valueOf(System.currentTimeMillis()));
+		Uri destination = Uri.fromFile(file);
 		Crop.of(source, destination).asSquare().start(this);
 	}
 
 	private void handleCrop(int resultCode, Intent result) {
 		if (resultCode == RESULT_OK) {
-			Log.d("b", result.getData()+"");
 			mImageView.setImageURI(Crop.getOutput(result));
 		} else if (resultCode == Crop.RESULT_ERROR) {
 			Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();

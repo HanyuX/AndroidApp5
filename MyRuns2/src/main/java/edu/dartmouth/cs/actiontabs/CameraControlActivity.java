@@ -40,6 +40,7 @@ public class CameraControlActivity extends Activity {
 	private int flag = 1;
 
 	private Uri mImageCaptureUri;
+//	private Uri mImageCaptureUriCache;
 	private ImageView mImageView;
 	private boolean isTakenFromCamera;
 
@@ -123,9 +124,6 @@ public class CameraControlActivity extends Activity {
 			    beginCrop(mImageCaptureUri);
                 break;
             case REQUEST_CODE_FROM_GALLERY:
-
-//                String path = getRealPathFromURI(data.getData());
-//                mImageView.setImageBitmap(BitmapFactory.decodeFile(path));
 				beginCrop(data.getData());
 				break;
 
@@ -175,6 +173,7 @@ public class CameraControlActivity extends Activity {
 				// REQUEST_CODE_TAKE_FROM_CAMERA is an integer tag you
 				// defined to identify the activity in onActivityResult()
 				// when it returns
+
 				startActivityForResult(intent, REQUEST_CODE_TAKE_FROM_CAMERA);
 			} catch (ActivityNotFoundException e) {
 				e.printStackTrace();
@@ -204,7 +203,7 @@ public class CameraControlActivity extends Activity {
 			Bitmap bmap = BitmapFactory.decodeStream(fis);
 			mImageView.setImageBitmap(bmap);
 			fis.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// Default profile photo if no photo saved before.
 			mImageView.setImageResource(R.drawable.default_profile);
 		}

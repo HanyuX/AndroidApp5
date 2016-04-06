@@ -5,9 +5,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -50,7 +47,6 @@ public class MainActivity extends Activity {
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(viewPager);
 	}
-
     public void onClickStart(View v) {
         Spinner spinner = (Spinner)findViewById(R.id.spinnerInputType);
         String itemSelected = spinner.getSelectedItem().toString();
@@ -75,6 +71,6 @@ public class MainActivity extends Activity {
     }
 
     public void onClickSync(View v) {
-
+        Toast.makeText(getApplicationContext(), "Sync",Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,15 +1,11 @@
 package edu.dartmouth.cs.actiontabs;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -26,12 +22,18 @@ import android.widget.Toast;
 
 import com.soundcloud.android.crop.Crop;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 // extra credit -- take from camera or gallery
 
 public class CameraControlActivity extends Activity {
 
 	public static final int REQUEST_CODE_TAKE_FROM_CAMERA = 0;
-	//public static final int REQUEST_CODE_CROP_PHOTO = 2;
+	public static final int REQUEST_CODE_FROM_GALLERY = 1;
+//	public static final int REQUEST_CODE_CROP_PHOTO = 2;
 
 	private static final String IMAGE_UNSPECIFIED = "image/*";
 	private static final String URI_INSTANCE_STATE_KEY = "saved_uri";
@@ -93,6 +95,22 @@ public class CameraControlActivity extends Activity {
 		displayDialog(MyRunsDialogFragment.DIALOG_ID_PHOTO_PICKER);
 	}
 
+
+    //get the real path from
+    private String getRealPathFromURI(Uri contentUri) {
+        String[] proj = new String[] { android.provider.MediaStore.Images.ImageColumns.DATA };
+
+        Cursor cursor = getContentResolver().query(contentUri, proj, null,
+                null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+
+        String filename = cursor.getString(column_index);
+        cursor.close();
+        return filename;
+    }
+
 	// Handle data after activity returns.
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -100,23 +118,30 @@ public class CameraControlActivity extends Activity {
 			return;
 
 		switch (requestCode) {
-		case REQUEST_CODE_TAKE_FROM_CAMERA:
-			// Send image taken from camera for cropping
-			beginCrop(mImageCaptureUri);
-			break;
+            case REQUEST_CODE_TAKE_FROM_CAMERA:
+			    // Send image taken from camera for cropping
+			    beginCrop(mImageCaptureUri);
+                break;
+            case REQUEST_CODE_FROM_GALLERY:
 
-		case Crop.REQUEST_CROP: //We changed the RequestCode to the one being used by the library.
-			// Update image view after image crop
-			handleCrop(resultCode, data);
+//                String path = getRealPathFromURI(data.getData());
+//                mImageView.setImageBitmap(BitmapFactory.decodeFile(path));
+				beginCrop(data.getData());
+				break;
 
-			// Delete temporary image taken by camera after crop.
-			if (isTakenFromCamera) {
-				File f = new File(mImageCaptureUri.getPath());
-				if (f.exists())
-					f.delete();
-			}
+		    case Crop.REQUEST_CROP: //We changed the RequestCode to the one being used by the library.
+                // Update image view after image crop
+                handleCrop(resultCode, data);
+				Log.d("a", "1");
 
-			break;
+                // Delete temporary image taken by camera after crop.
+                if (isTakenFromCamera) {
+                    File f = new File(mImageCaptureUri.getPath());
+                    if (f.exists())
+                        f.delete();
+                }
+
+                break;
 		}
 	}
 
@@ -157,7 +182,12 @@ public class CameraControlActivity extends Activity {
 			}
 			isTakenFromCamera = true;
 			break;
-			
+
+		case MyRunsDialogFragment.ID_PHOTO_PICKER_FROM_GALLERY:
+			intent = new Intent(Intent.ACTION_PICK,
+					android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			startActivityForResult(intent, REQUEST_CODE_FROM_GALLERY);
+            break;
 		default:
 			return;
 		}
@@ -204,12 +234,13 @@ public class CameraControlActivity extends Activity {
 	 * have to.
 	 *  **/
 	private void beginCrop(Uri source) {
-		Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+		Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"+String.valueOf(System.currentTimeMillis())));
 		Crop.of(source, destination).asSquare().start(this);
 	}
 
 	private void handleCrop(int resultCode, Intent result) {
 		if (resultCode == RESULT_OK) {
+			Log.d("b", result.getData()+"");
 			mImageView.setImageURI(Crop.getOutput(result));
 		} else if (resultCode == Crop.RESULT_ERROR) {
 			Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();

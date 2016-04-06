@@ -2,11 +2,14 @@ package edu.dartmouth.cs.actiontabs;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,8 +36,8 @@ public class MainActivity extends Activity {
 
         // create a fragment list in order.
         fragments = new ArrayList<Fragment>();
-        fragments.add(new FindFragment());
-        fragments.add(new ChatFragment());
+        fragments.add(new StartFragment());
+        fragments.add(new HistoryFragment());
         fragments.add(new SettingFragment());
 
         // use FragmentPagerAdapter to bind the slidingTabLayout (tabs with different titles)
@@ -46,53 +49,23 @@ public class MainActivity extends Activity {
         // make sure the tabs are equally spaced.
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(viewPager);
-
-
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menuitem_search:
-			Toast.makeText(this, getString(R.string.ui_menu_search),
-					Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.menuitem_send:
-			Toast.makeText(this, getString(R.string.ui_menu_send),
-					Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.menuitem_add:
-			Toast.makeText(this, getString(R.string.ui_menu_add),
-					Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.menuitem_share:
-			Toast.makeText(this, getString(R.string.ui_menu_share),
-					Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.menuitem_feedback:
-			Toast.makeText(this, getString(R.string.ui_menu_feedback),
-					Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.menuitem_about:
-			Toast.makeText(this, getString(R.string.ui_menu_about),
-					Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.menuitem_quit:
-			Toast.makeText(this, getString(R.string.ui_menu_quit),
-					Toast.LENGTH_SHORT).show();
-			finish(); // close the activity
-			return true;
-		}
-		return false;
-	}
-
-
-
+    public void onClickStart(View v) {
+        Spinner spinner = (Spinner)findViewById(R.id.spinnerInputType);
+        String itemSelected = spinner.getSelectedItem().toString();
+        Toast.makeText(getApplicationContext(), itemSelected,
+                Toast.LENGTH_SHORT).show();
+        switch(itemSelected) {
+            case "Manual Entry":
+                Intent mIntent = new Intent(MainActivity.this,
+                        ManualEntry.class);
+                startActivity(mIntent);
+                break;
+            case "GPS":
+                break;
+            case "Automatic":
+                break;
+        }
+    }
 }

@@ -54,18 +54,27 @@ public class MainActivity extends Activity {
     public void onClickStart(View v) {
         Spinner spinner = (Spinner)findViewById(R.id.spinnerInputType);
         String itemSelected = spinner.getSelectedItem().toString();
-        Toast.makeText(getApplicationContext(), itemSelected,
-                Toast.LENGTH_SHORT).show();
+        Intent mIntent;
         switch(itemSelected) {
             case "Manual Entry":
-                Intent mIntent = new Intent(MainActivity.this,
+                mIntent = new Intent(MainActivity.this,
                         ManualEntry.class);
                 startActivity(mIntent);
                 break;
             case "GPS":
+                mIntent = new Intent(MainActivity.this,
+                        MapActivity.class);
+                startActivity(mIntent);
                 break;
             case "Automatic":
+                mIntent = new Intent(MainActivity.this,
+                        MapActivity.class);
+                startActivity(mIntent);
                 break;
         }
+    }
+
+    public void onClickSync(View v) {
+
     }
 }

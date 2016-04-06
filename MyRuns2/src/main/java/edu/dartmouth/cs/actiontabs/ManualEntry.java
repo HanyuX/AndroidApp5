@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.app.Dialog;
 import java.util.Calendar;
 
@@ -31,11 +32,11 @@ public class ManualEntry extends ListActivity {
         super.onCreate(savedInstanceState);
 
         // Don't have to do this anymore
-        // setContentView(R.layout.listview_layout);
+        setContentView(R.layout.manualentry_layout);
 
         // Define a new adapter
         ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this,
-                R.layout.manualentry_layout, FACULTY);
+                android.R.layout.simple_list_item_1, FACULTY);
 
         // Assign the adapter to ListView
         setListAdapter(mAdapter);
@@ -61,7 +62,6 @@ public class ManualEntry extends ListActivity {
         // Get the ListView and wired the listener
         ListView listView = getListView();
         listView.setOnItemClickListener(mListener);
-
     }
 
     private void onDateClicked() {
@@ -146,5 +146,16 @@ public class ManualEntry extends ListActivity {
                                 }
                             }).create();
         }
+    }
+
+    public void onEntrySaveClicked(View v) {
+        finish();
+    }
+
+    public void onEntryCancleClicked(View v) {
+        Toast.makeText(getApplicationContext(), "Entry discarded.",
+                Toast.LENGTH_SHORT).show();
+
+        finish();
     }
 }

@@ -25,10 +25,7 @@
         <item>Other</item>
     </string-array>
 
-    <string name="hello">Hello World, StartActivity!</string>
     <string name="app_name">MyRuns2</string>
-    <string name="ui_cs_picture">Sudi picture</string>
-    <string name="ui_love_picture">Love picture</string>
     <!-- Tab Strings -->
     <string name="ui_tabname_find">find</string>
     <string name="ui_tabname_chat">chat</string>

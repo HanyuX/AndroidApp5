@@ -23,7 +23,7 @@ import java.util.Calendar;
  * Created by xuehanyu on 4/5/16.
  */
 public class ManualEntry extends ListActivity {
-    static final String[] FACULTY = new String[] { "Date", "Time", "Duration",
+    static final String[] content = new String[] { "Date", "Time", "Duration",
             "Distance", "Calories","Heart Rate", "Comment" };
     Calendar mDateAndTime = Calendar.getInstance();
 
@@ -36,7 +36,7 @@ public class ManualEntry extends ListActivity {
 
         // Define a new adapter
         ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, FACULTY);
+                android.R.layout.simple_list_item_1, content);
 
         // Assign the adapter to ListView
         setListAdapter(mAdapter);

@@ -37,6 +37,7 @@ public class CameraControlActivity extends Activity {
 
 	private static final String IMAGE_UNSPECIFIED = "image/*";
 	private static final String URI_INSTANCE_STATE_KEY = "saved_uri";
+	private int flag = 1;
 
 	private Uri mImageCaptureUri;
 	private ImageView mImageView;
@@ -47,11 +48,10 @@ public class CameraControlActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile);
 		mImageView = (ImageView) findViewById(R.id.imageProfile);
-
 		if (savedInstanceState != null) {
 			mImageCaptureUri = savedInstanceState
 					.getParcelable(URI_INSTANCE_STATE_KEY);
-			mImageView.setImageURI(mImageCaptureUri);
+					mImageView.setImageURI(mImageCaptureUri);
 			if(mImageCaptureUri == null) {
 				loadSnap();
 				loadProfile();
@@ -132,7 +132,6 @@ public class CameraControlActivity extends Activity {
 		    case Crop.REQUEST_CROP: //We changed the RequestCode to the one being used by the library.
                 // Update image view after image crop
                 handleCrop(resultCode, data);
-				Log.d("a", "1");
 
                 // Delete temporary image taken by camera after crop.
                 if (isTakenFromCamera) {
@@ -234,13 +233,13 @@ public class CameraControlActivity extends Activity {
 	 * have to.
 	 *  **/
 	private void beginCrop(Uri source) {
-		Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"+String.valueOf(System.currentTimeMillis())));
+		Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"+flag));//+String.valueOf(System.currentTimeMillis())));
+		flag ^= 1;
 		Crop.of(source, destination).asSquare().start(this);
 	}
 
 	private void handleCrop(int resultCode, Intent result) {
 		if (resultCode == RESULT_OK) {
-			Log.d("b", result.getData()+"");
 			mImageView.setImageURI(Crop.getOutput(result));
 		} else if (resultCode == Crop.RESULT_ERROR) {
 			Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
@@ -251,7 +250,6 @@ public class CameraControlActivity extends Activity {
 		String mKey = getString(R.string.preference_name);
 		SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
 
-		Log.d("ccc", "load");
 		// Load Name
 		mKey = getString(R.string.preference_key_profile_name);
 		String mValue = mPrefs.getString(mKey, " ");

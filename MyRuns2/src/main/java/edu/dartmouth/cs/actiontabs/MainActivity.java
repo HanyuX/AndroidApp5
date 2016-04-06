@@ -2,8 +2,12 @@ package edu.dartmouth.cs.actiontabs;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -29,8 +33,8 @@ public class MainActivity extends Activity {
 
         // create a fragment list in order.
         fragments = new ArrayList<Fragment>();
-        fragments.add(new FindFragment());
-        fragments.add(new ChatFragment());
+        fragments.add(new StartFragment());
+        fragments.add(new HistoryFragment());
         fragments.add(new SettingFragment());
 
         // use FragmentPagerAdapter to bind the slidingTabLayout (tabs with different titles)
@@ -43,4 +47,25 @@ public class MainActivity extends Activity {
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(viewPager);
 	}
+    public void onClickStart(View v) {
+        Spinner spinner = (Spinner)findViewById(R.id.spinnerInputType);
+        String itemSelected = spinner.getSelectedItem().toString();
+        Toast.makeText(getApplicationContext(), itemSelected,
+                Toast.LENGTH_SHORT).show();
+        switch(itemSelected) {
+            case "Manual Entry":
+                Intent mIntent = new Intent(MainActivity.this,
+                        ManualEntry.class);
+                startActivity(mIntent);
+                break;
+            case "GPS":
+                break;
+            case "Automatic":
+                break;
+        }
+    }
+
+    public void onClickSync(View v) {
+        Toast.makeText(getApplicationContext(), "Sync",Toast.LENGTH_SHORT).show();
+    }
 }

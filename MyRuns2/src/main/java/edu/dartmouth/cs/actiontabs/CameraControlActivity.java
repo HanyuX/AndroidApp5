@@ -124,13 +124,15 @@ public class CameraControlActivity extends Activity {
                 break;
             case REQUEST_CODE_FROM_GALLERY:
 
-                String path = getRealPathFromURI(data.getData());
-                mImageView.setImageBitmap(BitmapFactory.decodeFile(path));
-					break;
+//                String path = getRealPathFromURI(data.getData());
+//                mImageView.setImageBitmap(BitmapFactory.decodeFile(path));
+				beginCrop(data.getData());
+				break;
 
 		    case Crop.REQUEST_CROP: //We changed the RequestCode to the one being used by the library.
                 // Update image view after image crop
                 handleCrop(resultCode, data);
+				Log.d("a", "1");
 
                 // Delete temporary image taken by camera after crop.
                 if (isTakenFromCamera) {
@@ -232,12 +234,13 @@ public class CameraControlActivity extends Activity {
 	 * have to.
 	 *  **/
 	private void beginCrop(Uri source) {
-		Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+		Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"+String.valueOf(System.currentTimeMillis())));
 		Crop.of(source, destination).asSquare().start(this);
 	}
 
 	private void handleCrop(int resultCode, Intent result) {
 		if (resultCode == RESULT_OK) {
+			Log.d("b", result.getData()+"");
 			mImageView.setImageURI(Crop.getOutput(result));
 		} else if (resultCode == Crop.RESULT_ERROR) {
 			Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();

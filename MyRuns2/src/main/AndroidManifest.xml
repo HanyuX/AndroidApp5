@@ -32,6 +32,9 @@
             </intent-filter>
         </activity>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity"></activity>
+        <activity android:name=".ManualEntry"
+            android:label="@string/app_name">
+        </activity>
     </application>
 
 </manifest>

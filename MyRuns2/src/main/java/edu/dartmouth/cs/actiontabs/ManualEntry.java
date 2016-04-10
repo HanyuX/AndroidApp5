@@ -64,6 +64,7 @@ public class ManualEntry extends ListActivity {
         listView.setOnItemClickListener(mListener);
     }
 
+    //callback to pick the date
     private void onDateClicked() {
         DatePickerDialog.OnDateSetListener mDateListener = new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -80,6 +81,7 @@ public class ManualEntry extends ListActivity {
                 mDateAndTime.get(Calendar.DAY_OF_MONTH)).show();
     }
 
+    //callback to pick the time
     private void onTimeClicked() {
 
         TimePickerDialog.OnTimeSetListener mTimeListener = new TimePickerDialog.OnTimeSetListener() {

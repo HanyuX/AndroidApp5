@@ -25,14 +25,17 @@ public class ActionTabsViewPagerAdapter extends FragmentPagerAdapter {
         this.fragments = fragments;
     }
 
+    /** get the fragment according to the position */
     public Fragment getItem(int pos){
         return fragments.get(pos);
     }
 
+    /** get the number of the tabs */
     public int getCount(){
         return fragments.size();
     }
 
+    /** get the title of the tabs */
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case START:

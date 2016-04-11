@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
         slidingTabLayout.setViewPager(viewPager);
 	}
 
-    //calling the function when click the save button
+    /** called when the Save button is clicked */
     public void onClickStart(View v) {
         Spinner spinner = (Spinner)findViewById(R.id.spinnerInputType);
         String itemSelected = spinner.getSelectedItem().toString();
@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    //calling the function when click the sync button
+    /** called when the Sync button is clicked */
     public void onClickSync(View v) {
         Toast.makeText(getApplicationContext(), "Sync",Toast.LENGTH_SHORT).show();
     }

@@ -64,7 +64,7 @@ public class ManualEntry extends ListActivity {
         listView.setOnItemClickListener(mListener);
     }
 
-    //callback to pick the date
+    /** called when the date is clicked */
     private void onDateClicked() {
         DatePickerDialog.OnDateSetListener mDateListener = new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -81,7 +81,7 @@ public class ManualEntry extends ListActivity {
                 mDateAndTime.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    //callback to pick the time
+    /** called when the time is clicked */
     private void onTimeClicked() {
 
         TimePickerDialog.OnTimeSetListener mTimeListener = new TimePickerDialog.OnTimeSetListener() {
@@ -96,6 +96,7 @@ public class ManualEntry extends ListActivity {
                 mDateAndTime.get(Calendar.MINUTE), true).show();
     }
 
+    /** showing the dialog*/
     private void showDialog(String title){
         MyAlertDialogFragment mydialog = new MyAlertDialogFragment();
         DialogFragment newFragment = mydialog
@@ -109,6 +110,8 @@ public class ManualEntry extends ListActivity {
     public void doOkClick() {
     }
 
+
+    /** the fragment used to show the dialog */
     public static class MyAlertDialogFragment extends DialogFragment {
 
         public static MyAlertDialogFragment newInstance(String title) {
@@ -139,7 +142,7 @@ public class ManualEntry extends ListActivity {
                                             .doOkClick();
                                 }
                             })
-                    .setNegativeButton("CANCLE",
+                    .setNegativeButton("CANCEL",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
                                                     int whichButton) {
@@ -150,11 +153,13 @@ public class ManualEntry extends ListActivity {
         }
     }
 
+    /** called when the save button is clicked */
     public void onEntrySaveClicked(View v) {
         finish();
     }
 
-    public void onEntryCancleClicked(View v) {
+    /** called when the cancel button is clicked */
+    public void onEntryCancelClicked(View v) {
         Toast.makeText(getApplicationContext(), "Entry discarded.",
                 Toast.LENGTH_SHORT).show();
 

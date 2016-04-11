@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:text="CANCLE"
             android:layout_marginRight="40dp"
-            android:onClick="onEntryCancleClicked"
+            android:onClick="onEntryCancelClicked"
             android:textSize="15dp"/>
     </LinearLayout>
 

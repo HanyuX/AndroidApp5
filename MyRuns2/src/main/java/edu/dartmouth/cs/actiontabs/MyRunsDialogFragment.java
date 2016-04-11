@@ -24,6 +24,8 @@ public class MyRunsDialogFragment extends DialogFragment {
 
 	private static final String DIALOG_ID_KEY = "dialog_id";
 
+
+	/** called when creating the fragment */
 	public static MyRunsDialogFragment newInstance(int dialog_id) {
 		MyRunsDialogFragment frag = new MyRunsDialogFragment();
 		Bundle args = new Bundle();
@@ -32,6 +34,7 @@ public class MyRunsDialogFragment extends DialogFragment {
 		return frag;
 	}
 
+	/** called when creating the dialog */
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		int dialog_id = getArguments().getInt(DIALOG_ID_KEY);

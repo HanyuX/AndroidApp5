@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,7 +39,6 @@ public class CameraControlActivity extends Activity {
 	private int flag = 1;
 
 	private Uri mImageCaptureUri;
-//	private Uri mImageCaptureUriCache;
 	private ImageView mImageView;
 	private boolean isTakenFromCamera;
 
@@ -97,7 +95,7 @@ public class CameraControlActivity extends Activity {
 	}
 
 
-    //get the real path from
+    /** get the real path from uri */
     private String getRealPathFromURI(Uri contentUri) {
         String[] proj = new String[] { android.provider.MediaStore.Images.ImageColumns.DATA };
 
@@ -112,7 +110,7 @@ public class CameraControlActivity extends Activity {
         return filename;
     }
 
-	// Handle data after activity returns.
+	/** Handle data after activity returns */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode != RESULT_OK)
@@ -194,10 +192,8 @@ public class CameraControlActivity extends Activity {
 
 	// ****************** private helper functions ***************************//
 
+	/** Load profile photo from internal storage */
 	private void loadSnap() {
-
-
-		// Load profile photo from internal storage
 		try {
 			FileInputStream fis = openFileInput(getString(R.string.profile_photo_file_name));
 			Bitmap bmap = BitmapFactory.decodeStream(fis);
@@ -209,10 +205,11 @@ public class CameraControlActivity extends Activity {
 		}
 	}
 
+
+	/** Commit all the changes into preference file
+	    Save profile image into internal storage. */
 	private void saveSnap() {
 
-	// Commit all the changes into preference file
-		// Save profile image into internal storage.
 		mImageView.buildDrawingCache();
 		Bitmap bmap = mImageView.getDrawingCache();
 		try {
@@ -245,6 +242,7 @@ public class CameraControlActivity extends Activity {
 		}
 	}
 
+	/** load the profile information from the sharedpreference*/
 	private void loadProfile() {
 		String mKey = getString(R.string.preference_name);
 		SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
@@ -292,6 +290,7 @@ public class CameraControlActivity extends Activity {
 		}
 	}
 
+	/** save the profile information to the shared preference */
 	private void saveProfile() {
 		// Getting the shared preferences editor
 

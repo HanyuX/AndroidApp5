@@ -126,9 +126,10 @@ public class ManualEntry extends ListActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             String title = getArguments().getString("title");
             EditText editText = new EditText(getActivity());
-            if(title.equals("Comment"))
+            if(title.equals("Comment")) {
                 editText.setHint("How did it go? Notes here.");
-            else
+                editText.setHeight(400);
+            }else
                 editText.setInputType(2);
 
             return new AlertDialog.Builder(getActivity())

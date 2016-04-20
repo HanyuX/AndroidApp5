@@ -27,8 +27,8 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // create table Orders(Id integer primary key, CustomName text, OrderPrice integer, Country text);
-        String sql = "create table if not exists " + TABLE_NAME + " (ID text primary key, Date text, Time text," +
-                "Duration integer, Distance integer, Calories integer, HeartRate integer, Comment text)";
+        String sql = "create table if not exists " + TABLE_NAME + " (ID text primary key,Date text,Time text,Duration integer," +
+                "Distance integer, Calories integer, HeartRate integer, Comment text, InputType text, ActivityType text)";
         sqLiteDatabase.execSQL(sql);
     }
 
@@ -42,15 +42,14 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     public void addItem(databaseItem item){
         try {
             SQLiteDatabase db = this.getWritableDatabase();
-//            int ID = 0;
-//            Cursor cursor = db.rawQuery("select id from "+TABLE_NAME+" order by ID DESC", new String[]{});
-//            if(cursor.getCount() > 0) {
-//                cursor.moveToFirst();
-//                ID = cursor.getInt(0)+1;
-//            }
-            String sqlAdd = "insert into table " + TABLE_NAME + " (ID, Date, Time, Duration, Calories, Distance, Calories, " +
-                    "HeartRate, Comment values (" + item.ID + item.Date + item.Time + item.Duration + item.Distance + item.Calories +
-                    item.HeartRate + item.Comment + ")";
+            String sqlAdd = "insert into " + TABLE_NAME + " (ID, Date, Time, Duration, Distance, Calories, " +
+                    "HeartRate, Comment, InputType, ActivityType) values ('" + (item.ID.equals("") ? "-1" : item.ID) +"','"+
+                    (item.Date.equals("") ? "-1" : item.Date) +"','"+
+                    (item.Time.equals("") ? "-1" : item.Time) +"',"+
+                    item.Duration +","+ item.Distance +","+ item.Calories +","+ item.HeartRate +",'"+
+                    (item.Comment.equals("") ? "-1" : item.Comment) + "','" +
+                    (item.InputType.equals("") ? "-1" : item.InputType) +"','"+
+                    (item.ActivityType.equals("") ? "-1" : item.ActivityType) +"')";
             db.execSQL(sqlAdd);
         }catch (Exception exc){
             Log.d("addItem", exc.getMessage());
@@ -80,7 +79,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
                 cursor.moveToFirst();
                 while(!cursor.isAfterLast()) {
                     databaseItem thisItem = new databaseItem(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4),
-                            cursor.getInt(5), cursor.getInt(6), cursor.getString(7));
+                            cursor.getInt(5), cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
                     result.add(thisItem);
                     cursor.moveToNext();
                 }

@@ -6,7 +6,7 @@ import android.database.DatabaseUtils;
  * Created by xuehanyu on 4/19/16.
  */
 public class databaseItem {
-    public int ID;
+    public String ID;
     public String Date;
     public String Time;
     public int Duration;
@@ -15,7 +15,8 @@ public class databaseItem {
     public int HeartRate;
     public String Comment;
 
-    public databaseItem(String Date, String Time, int Duration, int Distance, int Calories, int HeartRate, String Comment){
+    public databaseItem(String ID, String Date, String Time, int Duration, int Distance, int Calories, int HeartRate, String Comment){
+        this.ID = ID;
         this.Date = Date;
         this.Time = Time;
         this.Duration = Duration;

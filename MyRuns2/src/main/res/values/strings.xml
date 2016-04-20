@@ -25,7 +25,7 @@
         <item>Other</item>
     </string-array>
 
-    <string name="app_name">MyRuns2</string>
+    <string name="app_name">MyRuns3</string>
     <!-- Tab Strings -->
     <string name="ui_tabname_find">find</string>
     <string name="ui_tabname_chat">chat</string>

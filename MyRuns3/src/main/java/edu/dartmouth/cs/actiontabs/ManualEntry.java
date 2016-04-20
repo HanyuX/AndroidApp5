@@ -6,7 +6,9 @@ import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +28,8 @@ public class ManualEntry extends ListActivity {
     static final String[] content = new String[] { "Date", "Time", "Duration",
             "Distance", "Calories","Heart Rate", "Comment" };
     Calendar mDateAndTime = Calendar.getInstance();
+    public static databaseItem item = new databaseItem();
+    private DataBaseHelper helper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,13 @@ public class ManualEntry extends ListActivity {
                 }
             }
         };
+        //Database Helper
+        helper = new DataBaseHelper(getApplicationContext());
+
+        //Intent
+        Intent intent = getIntent();
+        item.ActivityType = intent.getStringExtra("ActivityType");
+        item.InputType = intent.getStringExtra("InputType");
 
         // Get the ListView and wired the listener
         ListView listView = getListView();
@@ -107,7 +118,26 @@ public class ManualEntry extends ListActivity {
     public void doCancleClick() {
     }
 
-    public void doOkClick() {
+    public void doOkClick(String title, String data) {
+        int dataInt = 0;
+        if(!title.equals("Comment"))
+            dataInt = Integer.parseInt(data);
+        switch (title){
+            case "Duration":
+                item.Duration = dataInt;
+                break;
+            case "Distance":
+                item.Distance = dataInt;
+                break;
+            case "Calories":
+                item.Calories = dataInt;
+                break;
+            case "Heart Rate":
+                item.HeartRate = dataInt;
+                break;
+            case "Comment":
+                item.Comment = data;
+        }
     }
 
 
@@ -124,13 +154,29 @@ public class ManualEntry extends ListActivity {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            String title = getArguments().getString("title");
-            EditText editText = new EditText(getActivity());
+            final String title = getArguments().getString("title");
+            final EditText editText = new EditText(getActivity());
             if(title.equals("Comment")) {
                 editText.setHint("How did it go? Notes here.");
                 editText.setHeight(400);
             }else
                 editText.setInputType(2);
+            switch (title){
+                case "Duration":
+                    editText.setText(item.Duration < 0 ? "" : item.Duration+"");
+                    break;
+                case "Distance":
+                    editText.setText(item.Distance < 0 ? "" : item.Distance+"");
+                    break;
+                case "Calories":
+                    editText.setText(item.Calories < 0 ? "" : item.Calories+"");
+                    break;
+                case "Heart Rate":
+                    editText.setText(item.HeartRate < 0 ? "" : item.HeartRate+"");
+                    break;
+                case "Comment":
+                    editText.setText(item.Comment+"");
+            }
 
             return new AlertDialog.Builder(getActivity())
                     .setTitle(title)
@@ -140,7 +186,7 @@ public class ManualEntry extends ListActivity {
                                 public void onClick(DialogInterface dialog,
                                                     int whichButton) {
                                     ((ManualEntry) getActivity())
-                                            .doOkClick();
+                                            .doOkClick(title, editText.getText().toString());
                                 }
                             })
                     .setNegativeButton("CANCEL",
@@ -156,6 +202,10 @@ public class ManualEntry extends ListActivity {
 
     /** called when the save button is clicked */
     public void onEntrySaveClicked(View v) {
+        item.Date = mDateAndTime.get(Calendar.YEAR) +"-"+ mDateAndTime.get(Calendar.MONTH) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH);
+        item.Time = mDateAndTime.get(Calendar.HOUR_OF_DAY) +"-"+ mDateAndTime.get(Calendar.MINUTE);
+        item.ID = System.currentTimeMillis()+"-"+item.InputType+"-"+item.ActivityType;
+        helper.addItem(item);
         finish();
     }
 

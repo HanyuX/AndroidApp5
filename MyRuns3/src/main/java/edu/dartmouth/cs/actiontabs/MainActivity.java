@@ -50,13 +50,17 @@ public class MainActivity extends Activity {
 
     /** called when the Save button is clicked */
     public void onClickStart(View v) {
-        Spinner spinner = (Spinner)findViewById(R.id.spinnerInputType);
-        String itemSelected = spinner.getSelectedItem().toString();
+        Spinner spinnerInput = (Spinner)findViewById(R.id.spinnerInputType);
+        Spinner spinnerActivity = (Spinner)findViewById(R.id.spinnerActivityType);
+        String InputType = spinnerInput.getSelectedItem().toString();
+        String ActivityType = spinnerActivity.getSelectedItem().toString();
         Intent mIntent;
-        switch(itemSelected) {
+        switch(InputType) {
             case "Manual Entry":
                 mIntent = new Intent(MainActivity.this,
                         ManualEntry.class);
+                mIntent.putExtra("InputType", "ManualEntry");
+                mIntent.putExtra("ActivityType", ActivityType);
                 startActivity(mIntent);
                 break;
             case "GPS":

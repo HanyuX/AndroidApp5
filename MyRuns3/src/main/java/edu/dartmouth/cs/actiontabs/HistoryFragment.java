@@ -26,10 +26,11 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
 
     private ListView listview;
     private List<databaseItem> list;
+    private View view;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        View view = inflater.inflate(R.layout.history_layout, container, false);
+        Log.d("history", "create");
+        view = inflater.inflate(R.layout.history_layout, container, false);
 
         list = new ArrayList<databaseItem>();
         databaseItem item = new databaseItem("1","2015", "19:00", 1, 2, 3, 4, "haha", "123", "Standing");
@@ -110,6 +111,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<ArrayList<databaseItem>> loader, ArrayList<databaseItem> items) {
         //Put your code here.
+        Log.d("in", "finish");
     }
 
     @Override
@@ -122,15 +124,17 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
 
         public DataLoader(Context context) {
             super(context);
+            Log.d("loader", "constructor");
         }
 
         @Override
         protected void onStartLoading() {
+            Log.d("loader", "start");
             forceLoad(); //Force an asynchronous load.
-
         }
         @Override
         public ArrayList<databaseItem> loadInBackground() {
+            Log.d("loader", "back");
             return (ArrayList<databaseItem>)helper.allItems();
         }
     }//end class

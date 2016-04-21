@@ -216,7 +216,7 @@ public class ManualEntry extends ListActivity{
 
     /** called when the save button is clicked */
     public void onEntrySaveClicked(View v) {
-        item.Date = mDateAndTime.get(Calendar.YEAR) +"-"+ mDateAndTime.get(Calendar.MONTH) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH);
+        item.Date = mDateAndTime.get(Calendar.YEAR) +"-"+ (mDateAndTime.get(Calendar.MONTH)+1) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH);
         item.Time = mDateAndTime.get(Calendar.HOUR_OF_DAY) +"-"+ mDateAndTime.get(Calendar.MINUTE);
         item.ID = System.currentTimeMillis()+"-"+item.InputType+"-"+item.ActivityType;
         helper.addItem(item);

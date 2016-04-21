@@ -43,8 +43,6 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
 
         View view = inflater.inflate(R.layout.history_layout, container, false);
         listview = (ListView) view.findViewById(R.id.datalist);
-        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        res = sharedPreferences.getString("measure", "Imperial (Miles)");
         adapter = new MyAdapter(getActivity(), list);
         System.out.println("onCreateView");
         listview.setAdapter(adapter);
@@ -108,6 +106,8 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
             if (convertView == null) {
                 convertView = layoutInflater.inflate(R.layout.item_historylayout, null);
             }
+            SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+            res = sharedPreferences.getString("measure", "Imperial (Miles)");
 
             TextView textview1 = (TextView) convertView.findViewById(R.id.method_time);
             TextView textview2 = (TextView) convertView.findViewById(R.id.mile_time);
@@ -144,6 +144,10 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoaderReset(Loader<ArrayList<databaseItem>> loader) {
         //Put your code here.
+    }
+
+    public void reLoadData(){
+        getLoaderManager().restartLoader(0, null, this);
     }
 
     public static class DataLoader extends AsyncTaskLoader<ArrayList<databaseItem>>{

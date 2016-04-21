@@ -19,6 +19,8 @@ public class InfoActivity extends Activity {
 
     private EditText eType, eDate, eDuration, eDistance, eCalories, eHeartRate;
     private String id;
+    private DataBaseHelper helper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +56,7 @@ public class InfoActivity extends Activity {
         eHeartRate = (EditText) findViewById(R.id.info_heartrate);
         eHeartRate.setText(heartrate + " bpm");
 
-
+        helper = new DataBaseHelper(getApplicationContext());
     }
 
     @Override
@@ -68,45 +70,10 @@ public class InfoActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_delete:
-                //delete the item
-
+                helper.deleteItem(id);
                 finish();
                 return true;
         }
         return false;
     }
-
-    public Loader<ArrayList<databaseItem>> onCreateLoader(int i, Bundle bundle) {
-        return new DataLoader(this); // DataLoader is your AsyncTaskLoader.
-    }
-
-    @Override
-    public void onLoadFinished(Loader<ArrayList<databaseItem>> loader, ArrayList<databaseItem> items) {
-        //Put your code here.
-    }
-
-    @Override
-    public void onLoaderReset(Loader<ArrayList<databaseItem>> loader) {
-        //Put your code here.
-    }
-
-    public static class DataLoader extends AsyncTaskLoader<ArrayList<databaseItem>> {
-        private DataBaseHelper helper = new DataBaseHelper(getContext());
-
-        public DataLoader(Context context) {
-            super(context);
-            Log.d("loader", "constructor");
-        }
-
-        @Override
-        protected void onStartLoading() {
-            Log.d("loader", "start");
-            forceLoad(); //Force an asynchronous load.
-        }
-        @Override
-        public ArrayList<databaseItem> loadInBackground() {
-            Log.d("loader", "back");
-            return helper.deleteItem(id);
-        }
-    }//end class
 }

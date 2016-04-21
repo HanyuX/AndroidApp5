@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
     private ListView listview;
     private List<databaseItem> list;
     private MyAdapter adapter;
-
+    private String res;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,8 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
 
         View view = inflater.inflate(R.layout.history_layout, container, false);
         listview = (ListView) view.findViewById(R.id.datalist);
+        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        res = sharedPreferences.getString("measure", "Imperial (Miles)");
         adapter = new MyAdapter(getActivity(), list);
         System.out.println("onCreateView");
         listview.setAdapter(adapter);
@@ -112,8 +115,6 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
             textview1.setText("Manual Entry: " + list.get(position).ActivityType + "," + list.get(position).Time + " " + list.get(position).Date);
             int minute = (int)list.get(position).Duration;
             int second = (int)((list.get(position).Duration - minute) * 60);
-            SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-            String res = sharedPreferences.getString("measure", "Imperial (Miles)");
             if (res.equals("Imperial (Miles)")) {
                 textview2.setText(list.get(position).Distance + "Miles, " + minute + "mins " + second + "secs");
             }
@@ -150,15 +151,17 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
 
         public DataLoader(Context context) {
             super(context);
+            Log.d("loader", "constructor");
         }
 
         @Override
         protected void onStartLoading() {
+            Log.d("loader", "start");
             forceLoad(); //Force an asynchronous load.
-
         }
         @Override
         public ArrayList<databaseItem> loadInBackground() {
+            Log.d("loader", "back");
             return (ArrayList<databaseItem>)helper.allItems();
         }
     }//end class

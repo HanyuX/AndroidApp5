@@ -1,17 +1,24 @@
 package edu.dartmouth.cs.actiontabs;
 
 import android.app.Activity;
+import android.content.AsyncTaskLoader;
+import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
 public class InfoActivity extends Activity {
 
 
     private EditText eType, eDate, eDuration, eDistance, eCalories, eHeartRate;
+    private String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +26,7 @@ public class InfoActivity extends Activity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        String id = bundle.getString("ID");
+        id = bundle.getString("ID");
         String activityType = bundle.getString("ActivityType");
         String dateTime = bundle.getString("DateTime");
         Double duration = bundle.getDouble("Duration");
@@ -68,4 +75,38 @@ public class InfoActivity extends Activity {
         }
         return false;
     }
+
+    public Loader<ArrayList<databaseItem>> onCreateLoader(int i, Bundle bundle) {
+        return new DataLoader(this); // DataLoader is your AsyncTaskLoader.
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<databaseItem>> loader, ArrayList<databaseItem> items) {
+        //Put your code here.
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<databaseItem>> loader) {
+        //Put your code here.
+    }
+
+    public static class DataLoader extends AsyncTaskLoader<ArrayList<databaseItem>> {
+        private DataBaseHelper helper = new DataBaseHelper(getContext());
+
+        public DataLoader(Context context) {
+            super(context);
+            Log.d("loader", "constructor");
+        }
+
+        @Override
+        protected void onStartLoading() {
+            Log.d("loader", "start");
+            forceLoad(); //Force an asynchronous load.
+        }
+        @Override
+        public ArrayList<databaseItem> loadInBackground() {
+            Log.d("loader", "back");
+            return helper.deleteItem(id);
+        }
+    }//end class
 }

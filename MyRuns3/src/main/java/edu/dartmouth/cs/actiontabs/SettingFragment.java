@@ -1,5 +1,6 @@
 package edu.dartmouth.cs.actiontabs;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -23,9 +24,10 @@ public class SettingFragment extends PreferenceFragment {
         res.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                SharedPreferences.Editor sharedPreferences = preference.getEditor();
-                sharedPreferences.putString("measure", o.toString());
-                sharedPreferences.commit();
+                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("measure", o.toString());
+                editor.commit();
                 return true;
             }
         });

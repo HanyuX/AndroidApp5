@@ -44,12 +44,15 @@ public class DataBaseHelper extends SQLiteOpenHelper{
             SQLiteDatabase db = this.getWritableDatabase();
             String sqlAdd = "insert into " + TABLE_NAME + " (ID, Date, Time, Duration, Distance, Calories, " +
                     "HeartRate, Comment, InputType, ActivityType) values ('" + (item.ID.equals("") ? "-1" : item.ID) +"','"+
-                    (item.Date.equals("") ? "-1" : item.Date) +"','"+
-                    (item.Time.equals("") ? "-1" : item.Time) +"',"+
-                    item.Duration +","+ item.Distance +","+ item.Calories +","+ item.HeartRate +",'"+
-                    (item.Comment.equals("") ? "-1" : item.Comment) + "','" +
-                    (item.InputType.equals("") ? "-1" : item.InputType) +"','"+
-                    (item.ActivityType.equals("") ? "-1" : item.ActivityType) +"')";
+                    (item.Date.equals("") ? "0" : item.Date) +"','"+
+                    (item.Time.equals("") ? "0" : item.Time) +"',"+
+                    (item.Duration < 0 ? 0 : item.Duration)  +","+
+                    (item.Distance < 0 ? 0 : item.Distance)  +","+
+                    (item.Calories < 0 ? 0 : item.Calories)  +","+
+                    (item.HeartRate < 0 ? 0 : item.HeartRate)+",'"+
+                    (item.Comment.equals("") ? "0" : item.Comment) + "','" +
+                    (item.InputType.equals("") ? "0" : item.InputType) +"','"+
+                    (item.ActivityType.equals("") ? "0" : item.ActivityType) +"')";
             db.execSQL(sqlAdd);
         }catch (Exception exc){
             Log.d("addItem", exc.getMessage());
@@ -71,6 +74,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
      * If UnitPreference equals 1, imperial
      */
     public List<databaseItem> allItems(){
+        Log.d("database", "all");
         List<databaseItem> result = new ArrayList<>();
         try {
             SQLiteDatabase db = this.getWritableDatabase();

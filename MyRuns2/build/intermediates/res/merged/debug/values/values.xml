@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <string-array name="start_array_activity_type">
+        <item>Running</item>
+        <item>Walking</item>
+        <item>Standing</item>
+        <item>Cycling</item>
+        <item>Hiking</item>
+        <item>Downhill Skiing</item>
+        <item>Cross-Country Skiing</item>
+        <item>Snowboarding</item>
+        <item>Skating</item>
+        <item>Swimming</item>
+        <item>Mountain Biking</item>
+        <item>Wheelchair</item>
+        <item>Elliptical</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="start_array_input_type">
+        <item>Manual Entry</item>
+        <item>GPS</item>
+        <item>Automatic</item>
+    </string-array>
+    <string-array name="ui_profile_photo_picker_items">
+        <item>Take picture from camera</item>
+        <item>Select from gallery</item>
+    </string-array>
+    <string-array name="ui_setting_unit_preValues">
+        <item>
+            Metric (Kilometers)
+        </item>
+        <item>
+            Imperial (Miles)
+        </item>
+    </string-array>
+    <attr format="reference" name="cropImageStyle"/>
+    <color name="crop__button_bar">#f3f3f3</color>
+    <color name="crop__button_text">#666666</color>
+    <color name="crop__selector_focused">#77000000</color>
+    <color name="crop__selector_pressed">#1a000000</color>
+    <declare-styleable name="CropImageView"><attr format="reference|color" name="highlightColor"/><attr format="boolean" name="showThirds"/><attr format="boolean" name="showCircle"/><attr name="showHandles"><enum name="changing" value="0"/><enum name="always" value="1"/><enum name="never" value="2"/></attr></declare-styleable>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="crop__bar_height">56dp</dimen>
+    <string name="app_name">MyRuns3</string>
+    <string name="crop__cancel" ns1:ignore="ButtonCase">CANCEL</string>
+    <string name="crop__done">DONE</string>
+    <string name="crop__pick_error">No image sources available</string>
+    <string name="crop__saving">Saving picture…</string>
+    <string name="crop__wait">Please wait…</string>
+    <string name="dialog_fragment_tag_photo_picker">dialog_fragment_photo_picker</string>
+    <string name="menu_settings">settings</string>
+    <string name="preference_key_profile_class">profile_class</string>
+    <string name="preference_key_profile_email">profile_email</string>
+    <string name="preference_key_profile_gender">profile_gender</string>
+    <string name="preference_key_profile_major">profile_major</string>
+    <string name="preference_key_profile_name">profile_name</string>
+    <string name="preference_key_profile_phone">profile_phone</string>
+    <string name="preference_name">my_shared_preferences</string>
+    <string name="profile_cancel_button">CANCEL</string>
+    <string name="profile_change_button">CHANGE</string>
+    <string name="profile_class_hint">eg. 2012</string>
+    <string name="profile_class_title">Class</string>
+    <string name="profile_email_hint">Your Email</string>
+    <string name="profile_email_title">Email</string>
+    <string name="profile_gender_female">Female</string>
+    <string name="profile_gender_male">Male</string>
+    <string name="profile_gender_title">Gender</string>
+    <string name="profile_major_hint">Your major</string>
+    <string name="profile_major_title">Major</string>
+    <string name="profile_name_hint">Your Name</string>
+    <string name="profile_name_title">Name</string>
+    <string name="profile_phone_hint">Your Phone Number</string>
+    <string name="profile_phone_title">Phone</string>
+    <string name="profile_photo_file_name">profile_photo.png</string>
+    <string name="profile_save_button">SAVE</string>
+    <string name="start_activity_type">Activity Type</string>
+    <string name="start_input_type">Input Type</string>
+    <string name="ui_menu_about">about</string>
+    <string name="ui_menu_add">add</string>
+    <string name="ui_menu_feedback">feedback</string>
+    <string name="ui_menu_quit">quit</string>
+    <string name="ui_menu_search">search</string>
+    <string name="ui_menu_send">send</string>
+    <string name="ui_menu_share">share</string>
+    <string name="ui_profile_photo_content_description">Your profile photo:</string>
+    <string name="ui_profile_photo_picker_title">"Select profile image"</string>
+    <string name="ui_profile_photo_title">Profile photo:</string>
+    <string name="ui_profile_toast_cancel_text">Change canceled</string>
+    <string name="ui_profile_toast_save_text">Profile saved</string>
+    <string name="ui_setting_account_preference">Account Preferences</string>
+    <string name="ui_setting_account_private_content">Posting your records anonymously</string>
+    <string name="ui_setting_account_private_setting">Privacy Setting</string>
+    <string name="ui_setting_account_profile">Name, Email, Class, etc</string>
+    <string name="ui_setting_account_profile_summay">User Profile</string>
+    <string name="ui_setting_addition">Additional Settings</string>
+    <string name="ui_setting_comments">Comments</string>
+    <string name="ui_setting_leave_comments">Please enter your comments</string>
+    <string name="ui_setting_misc">Misc.</string>
+    <string name="ui_setting_select_unit">Select the units</string>
+    <string name="ui_setting_unit">Unit Preference</string>
+    <string name="ui_setting_unit_preference">Unit Preference</string>
+    <string name="ui_setting_webpage">Webpage</string>
+    <string name="ui_setting_webpage_content">cs.dartmouth.edu/~campbell/cs65/cs65.html</string>
+    <string name="ui_settings_profile_summary">Names, Email, Class, etc</string>
+    <string name="ui_settings_profile_title">User Profile</string>
+    <string name="ui_tabname_chat">chat</string>
+    <string name="ui_tabname_find">find</string>
+    <string name="ui_tabname_meet">meet</string>
+    <string name="ui_tabname_party">party</string>
+    <style name="AppTheme" parent="android:Theme.Holo">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="Crop"/>
+    <style name="Crop.ActionButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/crop__selectable_background</item>
+    </style>
+    <style name="Crop.ActionButtonText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingRight">20dp</item> <!-- Offsets left drawable -->
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:textColor">@color/crop__button_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="Crop.ActionButtonText.Cancel">
+        <item name="android:drawableLeft">@drawable/crop__ic_cancel</item>
+        <item name="android:text">@string/crop__cancel</item>
+    </style>
+    <style name="Crop.ActionButtonText.Done">
+        <item name="android:drawableLeft">@drawable/crop__ic_done</item>
+        <item name="android:text">@string/crop__done</item>
+    </style>
+    <style name="Crop.DoneCancelBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/crop__bar_height</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:divider">@drawable/crop__divider</item>
+        <item name="android:showDividers" ns1:ignore="NewApi">middle</item>
+        <item name="android:dividerPadding" ns1:ignore="NewApi">12dp</item>
+        <item name="android:background">@color/crop__button_bar</item>
+    </style>
+</resources>

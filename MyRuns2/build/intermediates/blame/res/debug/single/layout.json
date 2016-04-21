@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/res/merged/debug/layout/crop__activity_crop.xml",
+        "source": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/exploded-aar/com.soundcloud.android/android-crop/1.0.1/res/layout/crop__activity_crop.xml"
+    },
+    {
+        "merged": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/res/merged/debug/layout/start.xml",
+        "source": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/src/main/res/layout/start.xml"
+    },
+    {
+        "merged": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/res/merged/debug/layout/crop__layout_done_cancel.xml",
+        "source": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/exploded-aar/com.soundcloud.android/android-crop/1.0.1/res/layout/crop__layout_done_cancel.xml"
+    },
+    {
+        "merged": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/res/merged/debug/layout/profile.xml",
+        "source": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/src/main/res/layout/profile.xml"
+    },
+    {
+        "merged": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/res/merged/debug/layout/main.xml",
+        "source": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/src/main/res/layout/main.xml"
+    },
+    {
+        "merged": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/res/merged/debug/layout/map.xml",
+        "source": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/src/main/res/layout/map.xml"
+    },
+    {
+        "merged": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/res/merged/debug/layout/manualentry_layout.xml",
+        "source": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/src/main/res/layout/manualentry_layout.xml"
+    }
+]

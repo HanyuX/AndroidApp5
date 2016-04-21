@@ -1,0 +1,102 @@
+[
+    {
+        "outputFile": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/res/merged/debug/values-sv/values-sv.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 100,
+                    "endColumn": 71,
+                    "endOffset": 167
+                },
+                "from": {
+                    "file": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/exploded-aar/com.soundcloud.android/android-crop/1.0.1/res/values-sv/values-sv.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 215,
+                        "endColumn": 71,
+                        "endOffset": 282
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 172,
+                    "endColumn": 43,
+                    "endOffset": 211
+                },
+                "from": {
+                    "file": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/exploded-aar/com.soundcloud.android/android-crop/1.0.1/res/values-sv/values-sv.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 287,
+                        "endColumn": 43,
+                        "endOffset": 326
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 216,
+                    "endColumn": 73,
+                    "endOffset": 285
+                },
+                "from": {
+                    "file": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/exploded-aar/com.soundcloud.android/android-crop/1.0.1/res/values-sv/values-sv.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 331,
+                        "endColumn": 73,
+                        "endOffset": 400
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 290,
+                    "endColumn": 53,
+                    "endOffset": 339
+                },
+                "from": {
+                    "file": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/exploded-aar/com.soundcloud.android/android-crop/1.0.1/res/values-sv/values-sv.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 405,
+                        "endColumn": 53,
+                        "endOffset": 454
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 344,
+                    "endColumn": 53,
+                    "endOffset": 393
+                },
+                "from": {
+                    "file": "/Users/dnalwqer/Desktop/Courses/Smartphone/HW4/AndroidApp4/MyRuns2/build/intermediates/exploded-aar/com.soundcloud.android/android-crop/1.0.1/res/values-sv/values-sv.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 459,
+                        "endColumn": 53,
+                        "endOffset": 508
+                    }
+                }
+            }
+        ]
+    }
+]

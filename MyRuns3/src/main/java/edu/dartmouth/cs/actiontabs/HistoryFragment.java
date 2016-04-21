@@ -39,6 +39,12 @@ public class HistoryFragment extends Fragment{
                 Intent intent = new Intent(getActivity(), InfoActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("ID", list.get(position).ID);
+                bundle.putString("ActivityType", list.get(position).ActivityType);
+                bundle.putString("DateTime", list.get(position).Time + " " + list.get(position).Date);
+                bundle.putDouble("Duration", list.get(position).Duration);
+                bundle.putDouble("Distance", list.get(position).Distance);
+                bundle.putInt("Calories", list.get(position).Calories);
+                bundle.putInt("HeartRate", list.get(position).HeartRate);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -91,8 +97,10 @@ public class HistoryFragment extends Fragment{
             TextView textview1 = (TextView) convertView.findViewById(R.id.method_time);
             TextView textview2 = (TextView) convertView.findViewById(R.id.mile_time);
 
-            textview1.setText("Manual Entry: " + list.get(position).ActivityType + "," + list.get(position).Date);
-            textview2.setText(list.get(position).Distance + "Miles, " + list.get(position).Duration + "Mins");
+            textview1.setText("Manual Entry: " + list.get(position).ActivityType + "," + list.get(position).Time + " " + list.get(position).Date);
+            int minute = (int)list.get(position).Duration;
+            int second = (int)((list.get(position).Duration - minute) * 60);
+            textview2.setText(list.get(position).Distance + "Miles, " + minute + "mins " + second + "secs");
             return convertView;
         }
     }

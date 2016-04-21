@@ -7,7 +7,8 @@
     <string name="info_date_time">Date and Time</string>
     <string name="info_duration">Duration</string>
     <string name="info_distance">Distance</string>
-    <string name=""
+    <string name="info_calories">Calories</string>
+    <string name="info_heartrate">Heart Rate</string>
     <string-array name="start_array_input_type">
         <item>Manual Entry</item>
         <item>GPS</item>
@@ -31,6 +32,10 @@
     </string-array>
 
     <string name="app_name">MyRuns3</string>
+
+    <!-- Menu -->
+    <string name="menu_delete">DELETE</string>
+
     <!-- Tab Strings -->
     <string name="ui_tabname_find">find</string>
     <string name="ui_tabname_chat">chat</string>

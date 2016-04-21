@@ -1,9 +1,13 @@
 package edu.dartmouth.cs.actiontabs;
 
 import android.app.Fragment;
+import android.app.LoaderManager;
+import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +22,7 @@ import java.util.List;
 /**
  * Created by xuehanyu on 4/5/16.
  */
-public class HistoryFragment extends Fragment{
+public class HistoryFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<databaseItem>>{
 
     private ListView listview;
     private List<databaseItem> list;
@@ -43,6 +47,7 @@ public class HistoryFragment extends Fragment{
                 startActivity(intent);
             }
         });
+        getLoaderManager().initLoader(0, null, this);
         return view;
     }
 
@@ -96,4 +101,37 @@ public class HistoryFragment extends Fragment{
             return convertView;
         }
     }
+
+    @Override
+    public Loader<ArrayList<databaseItem>> onCreateLoader(int i, Bundle bundle) {
+        return new DataLoader(getActivity()); // DataLoader is your AsyncTaskLoader.
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<databaseItem>> loader, ArrayList<databaseItem> items) {
+        //Put your code here.
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<databaseItem>> loader) {
+        //Put your code here.
+    }
+
+    public static class DataLoader extends AsyncTaskLoader<ArrayList<databaseItem>>{
+        private DataBaseHelper helper = new DataBaseHelper(getContext());
+
+        public DataLoader(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onStartLoading() {
+            forceLoad(); //Force an asynchronous load.
+
+        }
+        @Override
+        public ArrayList<databaseItem> loadInBackground() {
+            return (ArrayList<databaseItem>)helper.allItems();
+        }
+    }//end class
 }

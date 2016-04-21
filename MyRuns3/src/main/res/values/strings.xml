@@ -7,7 +7,6 @@
     <string name="info_date_time">Date and Time</string>
     <string name="info_duration">Duration</string>
     <string name="info_distance">Distance</string>
-    <string name=""
     <string-array name="start_array_input_type">
         <item>Manual Entry</item>
         <item>GPS</item>

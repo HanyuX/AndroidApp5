@@ -4,9 +4,13 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.ListActivity;
+import android.app.LoaderManager;
 import android.app.TimePickerDialog;
+import android.content.AsyncTaskLoader;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -20,12 +24,14 @@ import android.widget.TimePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.app.Dialog;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
  * Created by xuehanyu on 4/5/16.
  */
-public class ManualEntry extends ListActivity {
+public class ManualEntry extends ListActivity{
     static final String[] content = new String[] { "Date", "Time", "Duration",
             "Distance", "Calories","Heart Rate", "Comment" };
     Calendar mDateAndTime = Calendar.getInstance();

@@ -34,8 +34,6 @@ public class SettingFragment extends PreferenceFragment {
                 ActionTabsViewPagerAdapter adapter = (ActionTabsViewPagerAdapter)v.getAdapter();
                 HistoryFragment fragment = (HistoryFragment)adapter.getItem(1);
                 fragment.reLoadData();
-                Log.d("change",  adapter.getItem(1).toString()+"");
-
                 return true;
             }
         });

@@ -35,7 +35,6 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         super.onCreate(savedInstanceState);
         list = new ArrayList<>();
         getLoaderManager().initLoader(0, null, this);
-        System.out.println("onCreate");
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,7 +43,6 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         View view = inflater.inflate(R.layout.history_layout, container, false);
         listview = (ListView) view.findViewById(R.id.datalist);
         adapter = new MyAdapter(getActivity(), list);
-        System.out.println("onCreateView");
         listview.setAdapter(adapter);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -134,7 +132,6 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
     public void onLoadFinished(Loader<ArrayList<databaseItem>> loader, ArrayList<databaseItem> items) {
         //Put your code here.
         list.clear();
-        System.out.println(items.size());
         for(databaseItem item : items) {
             list.add(item);
         }
@@ -155,17 +152,14 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
 
         public DataLoader(Context context) {
             super(context);
-            Log.d("loader", "constructor");
         }
 
         @Override
         protected void onStartLoading() {
-            Log.d("loader", "start");
             forceLoad(); //Force an asynchronous load.
         }
         @Override
         public ArrayList<databaseItem> loadInBackground() {
-            Log.d("loader", "back");
             return (ArrayList<databaseItem>)helper.allItems();
         }
     }//end class

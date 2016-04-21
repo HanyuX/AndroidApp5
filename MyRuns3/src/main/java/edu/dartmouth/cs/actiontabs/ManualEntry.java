@@ -8,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -120,14 +121,18 @@ public class ManualEntry extends ListActivity {
 
     public void doOkClick(String title, String data) {
         int dataInt = 0;
-        if(!title.equals("Comment"))
+        double dataDouble = 0;
+        if(title.equals("Comment"));
+        else if(title.equals("Duration") || title.equals("Distance"))
+            dataDouble = Double.parseDouble(data);
+        else
             dataInt = Integer.parseInt(data);
         switch (title){
             case "Duration":
-                item.Duration = dataInt;
+                item.Duration = dataDouble;
                 break;
             case "Distance":
-                item.Distance = dataInt;
+                item.Distance = dataDouble;
                 break;
             case "Calories":
                 item.Calories = dataInt;
@@ -159,8 +164,11 @@ public class ManualEntry extends ListActivity {
             if(title.equals("Comment")) {
                 editText.setHint("How did it go? Notes here.");
                 editText.setHeight(400);
-            }else
-                editText.setInputType(2);
+            }else if(title.equals("Duration") || title.equals("Distance"))
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            else
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
             switch (title){
                 case "Duration":
                     editText.setText(item.Duration < 0 ? "" : item.Duration+"");

@@ -27,8 +27,8 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // create table Orders(Id integer primary key, CustomName text, OrderPrice integer, Country text);
-        String sql = "create table if not exists " + TABLE_NAME + " (ID text primary key,Date text,Time text,Duration integer," +
-                "Distance integer, Calories integer, HeartRate integer, Comment text, InputType text, ActivityType text)";
+        String sql = "create table if not exists " + TABLE_NAME + " (ID text primary key,Date text,Time text,Duration real," +
+                "Distance real, Calories integer, HeartRate integer, Comment text, InputType text, ActivityType text)";
         sqLiteDatabase.execSQL(sql);
     }
 
@@ -78,7 +78,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
             if(cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 while(!cursor.isAfterLast()) {
-                    databaseItem thisItem = new databaseItem(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4),
+                    databaseItem thisItem = new databaseItem(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getDouble(4),
                             cursor.getInt(5), cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
                     result.add(thisItem);
                     cursor.moveToNext();

@@ -9,15 +9,15 @@ public class databaseItem {
     public String ID = "";
     public String Date = "";
     public String Time = "";
-    public int Duration = -1;
-    public int Distance = -1;
+    public double Duration = -1;
+    public double Distance = -1;
     public int Calories = -1;
     public int HeartRate = -1;
     public String Comment = "";
     public String InputType = "";
     public String ActivityType = "";
 
-    public databaseItem(String ID, String Date, String Time, int Duration, int Distance, int Calories,
+    public databaseItem(String ID, String Date, String Time, double Duration, double Distance, int Calories,
                         int HeartRate, String Comment, String InputType, String ActivityType){
         this.ID = ID;
         this.Date = Date;

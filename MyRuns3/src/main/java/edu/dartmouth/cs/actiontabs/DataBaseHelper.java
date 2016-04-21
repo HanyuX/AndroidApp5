@@ -70,7 +70,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
      * If UnitPreference equals 0, metric
      * If UnitPreference equals 1, imperial
      */
-    public List<databaseItem> allItems(int UnitPreference){
+    public List<databaseItem> allItems(){
         List<databaseItem> result = new ArrayList<>();
         try {
             SQLiteDatabase db = this.getWritableDatabase();

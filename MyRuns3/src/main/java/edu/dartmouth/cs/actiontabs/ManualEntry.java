@@ -2,6 +2,7 @@ package edu.dartmouth.cs.actiontabs;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.app.TimePickerDialog;
@@ -9,23 +10,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.EditText;
 import android.widget.Toast;
-import android.app.Dialog;
+
 import java.util.Calendar;
 
 /**
  * Created by xuehanyu on 4/5/16.
  */
-public class ManualEntry extends ListActivity {
+public class ManualEntry extends ListActivity{
     static final String[] content = new String[] { "Date", "Time", "Duration",
             "Distance", "Calories","Heart Rate", "Comment" };
     Calendar mDateAndTime = Calendar.getInstance();
@@ -210,7 +210,7 @@ public class ManualEntry extends ListActivity {
 
     /** called when the save button is clicked */
     public void onEntrySaveClicked(View v) {
-        item.Date = mDateAndTime.get(Calendar.YEAR) +"-"+ mDateAndTime.get(Calendar.MONTH) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH);
+        item.Date = mDateAndTime.get(Calendar.YEAR) +"-"+ (mDateAndTime.get(Calendar.MONTH)+1) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH);
         item.Time = mDateAndTime.get(Calendar.HOUR_OF_DAY) +"-"+ mDateAndTime.get(Calendar.MINUTE);
         item.ID = System.currentTimeMillis()+"-"+item.InputType+"-"+item.ActivityType;
         helper.addItem(item);

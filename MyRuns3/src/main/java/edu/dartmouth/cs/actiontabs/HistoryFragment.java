@@ -29,6 +29,9 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
     private MyAdapter adapter;
     private String res;
 
+    /*
+     * called when the activity is created
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,13 +39,18 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         getLoaderManager().initLoader(0, null, this);
     }
 
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         View view = inflater.inflate(R.layout.history_layout, container, false);
         listview = (ListView) view.findViewById(R.id.datalist);
+
+        //set the adapter for the list view
         adapter = new MyAdapter(getActivity(), list);
         listview.setAdapter(adapter);
+
+        //set the click listener for the list view
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -55,6 +63,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
                 bundle.putDouble("Distance", list.get(position).Distance);
                 bundle.putInt("Calories", list.get(position).Calories);
                 bundle.putInt("HeartRate", list.get(position).HeartRate);
+                bundle.putString("method", res);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -62,6 +71,9 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         return view;
     }
 
+    /*
+     * define the adapter for the list view
+     */
     class MyAdapter extends BaseAdapter {
         Context context;
         List<databaseItem> list;
@@ -96,7 +108,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         }
 
         /*
-         * return the image view
+         * return the item in the list view
          */
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -114,6 +126,8 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
             int second = (int)((list.get(position).Duration - minute) * 60);
             int dis = (int)list.get(position).Distance;
             int kdis = (int)(list.get(position).Distance * 1.61);
+
+            //when the res == Imperial(Miles)
             if (res.equals("Imperial (Miles)")) {
                 if (minute != 0) {
                     if (dis == list.get(position).Distance)
@@ -128,6 +142,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
                         textview2.setText(list.get(position).Distance + " Miles, " + second + "secs");
                 }
             }
+            //when the res == Metric (Kilometers)
             else {
                 if (minute != 0) {
                     if (kdis == (list.get(position).Distance * 1.61))
@@ -137,7 +152,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
                 }
                 else {
                     if (kdis == (list.get(position).Distance * 1.61))
-                        textview2.setText((list.get(position).Distance * 1.61) + " Kilometers, " + second + "secs");
+                        textview2.setText(kdis + " Kilometers, " + second + "secs");
                     else
                         textview2.setText((list.get(position).Distance * 1.61) + " Kilometers, " + second + "secs");
                 }
@@ -146,11 +161,17 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
+    /*
+     * called when the loader is created
+     */
     @Override
     public Loader<ArrayList<databaseItem>> onCreateLoader(int i, Bundle bundle) {
         return new DataLoader(getActivity()); // DataLoader is your AsyncTaskLoader.
     }
 
+    /*
+     * called after the loadtask has finished
+     */
     @Override
     public void onLoadFinished(Loader<ArrayList<databaseItem>> loader, ArrayList<databaseItem> items) {
         //Put your code here.
@@ -163,13 +184,18 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onLoaderReset(Loader<ArrayList<databaseItem>> loader) {
-        //Put your code here.
     }
 
+    /*
+     * reload the data
+     */
     public void reLoadData(){
         getLoaderManager().restartLoader(0, null, this);
     }
 
+    /*
+     * define the asynctaskloader for reading the database
+     */
     public static class DataLoader extends AsyncTaskLoader<ArrayList<databaseItem>>{
         private DataBaseHelper helper = new DataBaseHelper(getContext());
 
@@ -185,5 +211,5 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         public ArrayList<databaseItem> loadInBackground() {
             return (ArrayList<databaseItem>)helper.allItems();
         }
-    }//end class
+    }
 }

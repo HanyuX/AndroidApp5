@@ -1,11 +1,9 @@
 package edu.dartmouth.cs.actiontabs;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -24,6 +22,9 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
 
+    /*
+     * called when the activity is created
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // create table Orders(Id integer primary key, CustomName text, OrderPrice integer, Country text);
@@ -32,6 +33,9 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL(sql);
     }
 
+    /*
+     * called when needs to upgrade
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         String sql = "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -39,6 +43,9 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         onCreate(sqLiteDatabase);
     }
 
+    /*
+     * add an item into the database
+     */
     public void addItem(databaseItem item){
         try {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -59,6 +66,9 @@ public class DataBaseHelper extends SQLiteOpenHelper{
         }
     }
 
+    /*
+     * delete an item in the database
+     */
     public void deleteItem(String ID){
         try{
             SQLiteDatabase db = this.getWritableDatabase();
@@ -70,8 +80,6 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 
     /*
      * Get all items in the database
-     * If UnitPreference equals 0, metric
-     * If UnitPreference equals 1, imperial
      */
     public List<databaseItem> allItems(){
         Log.d("database", "all");

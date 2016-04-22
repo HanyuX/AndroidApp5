@@ -7,6 +7,8 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 
 public class SettingFragment extends PreferenceFragment {
@@ -28,6 +30,10 @@ public class SettingFragment extends PreferenceFragment {
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("measure", o.toString());
                 editor.commit();
+                ViewPager v = (ViewPager)getActivity().findViewById(R.id.viewpager);
+                ActionTabsViewPagerAdapter adapter = (ActionTabsViewPagerAdapter)v.getAdapter();
+                HistoryFragment fragment = (HistoryFragment)adapter.getItem(1);
+                fragment.reLoadData();
                 return true;
             }
         });

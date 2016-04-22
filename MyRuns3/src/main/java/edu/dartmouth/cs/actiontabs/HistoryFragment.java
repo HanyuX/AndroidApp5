@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,6 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         super.onCreate(savedInstanceState);
         list = new ArrayList<>();
         getLoaderManager().initLoader(0, null, this);
-        System.out.println("onCreate");
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,10 +41,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
 
         View view = inflater.inflate(R.layout.history_layout, container, false);
         listview = (ListView) view.findViewById(R.id.datalist);
-        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        res = sharedPreferences.getString("measure", "Imperial (Miles)");
         adapter = new MyAdapter(getActivity(), list);
-        System.out.println("onCreateView");
         listview.setAdapter(adapter);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -108,6 +103,8 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
             if (convertView == null) {
                 convertView = layoutInflater.inflate(R.layout.item_historylayout, null);
             }
+            SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+            res = sharedPreferences.getString("measure", "Imperial (Miles)");
 
             TextView textview1 = (TextView) convertView.findViewById(R.id.method_time);
             TextView textview2 = (TextView) convertView.findViewById(R.id.mile_time);
@@ -115,11 +112,35 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
             textview1.setText("Manual Entry: " + list.get(position).ActivityType + "," + list.get(position).Time + " " + list.get(position).Date);
             int minute = (int)list.get(position).Duration;
             int second = (int)((list.get(position).Duration - minute) * 60);
+            int dis = (int)list.get(position).Distance;
+            int kdis = (int)(list.get(position).Distance * 1.61);
             if (res.equals("Imperial (Miles)")) {
-                textview2.setText(list.get(position).Distance + "Miles, " + minute + "mins " + second + "secs");
+                if (minute != 0) {
+                    if (dis == list.get(position).Distance)
+                        textview2.setText(dis + " Miles, " + minute + "mins " + second + "secs");
+                    else
+                        textview2.setText(list.get(position).Distance + " Miles, " + minute + "mins " + second + "secs");
+                }
+                else {
+                    if (dis == list.get(position).Distance)
+                        textview2.setText(dis + " Miles, " + second + "secs");
+                    else
+                        textview2.setText(list.get(position).Distance + " Miles, " + second + "secs");
+                }
             }
             else {
-                textview2.setText((list.get(position).Distance*1.61) + "Kilometers, " + minute + "mins " + second + "secs");
+                if (minute != 0) {
+                    if (kdis == (list.get(position).Distance * 1.61))
+                        textview2.setText(kdis + " Kilometers, " + minute + "mins " + second + "secs");
+                    else
+                        textview2.setText((list.get(position).Distance * 1.61) + " Kilometers, " + minute + "mins " + second + "secs");
+                }
+                else {
+                    if (kdis == (list.get(position).Distance * 1.61))
+                        textview2.setText((list.get(position).Distance * 1.61) + " Kilometers, " + second + "secs");
+                    else
+                        textview2.setText((list.get(position).Distance * 1.61) + " Kilometers, " + second + "secs");
+                }
             }
             return convertView;
         }
@@ -134,7 +155,6 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
     public void onLoadFinished(Loader<ArrayList<databaseItem>> loader, ArrayList<databaseItem> items) {
         //Put your code here.
         list.clear();
-        System.out.println(items.size());
         for(databaseItem item : items) {
             list.add(item);
         }
@@ -146,22 +166,23 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         //Put your code here.
     }
 
+    public void reLoadData(){
+        getLoaderManager().restartLoader(0, null, this);
+    }
+
     public static class DataLoader extends AsyncTaskLoader<ArrayList<databaseItem>>{
         private DataBaseHelper helper = new DataBaseHelper(getContext());
 
         public DataLoader(Context context) {
             super(context);
-            Log.d("loader", "constructor");
         }
 
         @Override
         protected void onStartLoading() {
-            Log.d("loader", "start");
             forceLoad(); //Force an asynchronous load.
         }
         @Override
         public ArrayList<databaseItem> loadInBackground() {
-            Log.d("loader", "back");
             return (ArrayList<databaseItem>)helper.allItems();
         }
     }//end class

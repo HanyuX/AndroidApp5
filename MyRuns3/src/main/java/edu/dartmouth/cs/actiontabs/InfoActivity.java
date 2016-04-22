@@ -13,6 +13,8 @@ public class InfoActivity extends Activity {
 
     private EditText eType, eDate, eDuration, eDistance, eCalories, eHeartRate;
     private String id;
+    private DataBaseHelper helper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,7 @@ public class InfoActivity extends Activity {
         eHeartRate = (EditText) findViewById(R.id.info_heartrate);
         eHeartRate.setText(heartrate + " bpm");
 
-
+        helper = new DataBaseHelper(getApplicationContext());
     }
 
     @Override
@@ -62,8 +64,7 @@ public class InfoActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_delete:
-                //delete the item
-
+                helper.deleteItem(id);
                 finish();
                 return true;
         }

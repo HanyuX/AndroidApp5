@@ -100,6 +100,7 @@ public class ManualEntry extends ListActivity{
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 mDateAndTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 mDateAndTime.set(Calendar.MINUTE, minute);
+                mDateAndTime.set(Calendar.SECOND,0);
             }
         };
 
@@ -211,9 +212,12 @@ public class ManualEntry extends ListActivity{
     /** called when the save button is clicked */
     public void onEntrySaveClicked(View v) {
         item.Date = mDateAndTime.get(Calendar.YEAR) +"-"+ (mDateAndTime.get(Calendar.MONTH)+1) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH);
-        item.Time = mDateAndTime.get(Calendar.HOUR_OF_DAY) +"-"+ mDateAndTime.get(Calendar.MINUTE);
+        item.Time = mDateAndTime.get(Calendar.HOUR_OF_DAY) +":"+ mDateAndTime.get(Calendar.MINUTE) +":"+
+                (mDateAndTime.get(Calendar.SECOND) == 0 ? "00" : mDateAndTime.get(Calendar.SECOND));
         item.ID = System.currentTimeMillis()+"-"+item.InputType+"-"+item.ActivityType;
         helper.addItem(item);
+        Toast.makeText(getApplicationContext(), "Entry saved.",
+                Toast.LENGTH_SHORT).show();
         finish();
     }
 

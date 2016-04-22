@@ -8,6 +8,7 @@ import android.app.ListActivity;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -215,7 +216,7 @@ public class ManualEntry extends ListActivity{
         item.Time = mDateAndTime.get(Calendar.HOUR_OF_DAY) +":"+ mDateAndTime.get(Calendar.MINUTE) +":"+
                 (mDateAndTime.get(Calendar.SECOND) == 0 ? "00" : mDateAndTime.get(Calendar.SECOND));
         item.ID = System.currentTimeMillis()+"-"+item.InputType+"-"+item.ActivityType;
-        helper.addItem(item);
+        new asyncTask(item).execute();
         Toast.makeText(getApplicationContext(), "Entry saved.",
                 Toast.LENGTH_SHORT).show();
         finish();
@@ -227,5 +228,26 @@ public class ManualEntry extends ListActivity{
                 Toast.LENGTH_SHORT).show();
 
         finish();
+    }
+
+    class asyncTask extends AsyncTask<Void, Void, Void> {
+        private databaseItem item;
+
+        public asyncTask(databaseItem item){
+            this.item = item;
+        }
+        @Override
+        protected Void doInBackground(Void... params) {
+            helper.addItem(item);
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+        }
     }
 }

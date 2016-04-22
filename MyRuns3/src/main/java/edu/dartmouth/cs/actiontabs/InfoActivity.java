@@ -1,10 +1,12 @@
 package edu.dartmouth.cs.actiontabs;
 
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,7 +16,7 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 
-public class InfoActivity extends Activity {
+public class InfoActivity extends Activity{
 
 
     private EditText eType, eDate, eDuration, eDistance, eCalories, eHeartRate;
@@ -70,10 +72,31 @@ public class InfoActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_delete:
-                helper.deleteItem(id);
+                new asyncTask(id).execute();
                 finish();
                 return true;
         }
         return false;
+    }
+
+    class asyncTask extends AsyncTask<Void, Void, Void> {
+        private String ID;
+
+        public asyncTask(String ID){
+            this.ID = ID;
+        }
+        @Override
+        protected Void doInBackground(Void... params) {
+            helper.deleteItem(ID);
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+        }
     }
 }

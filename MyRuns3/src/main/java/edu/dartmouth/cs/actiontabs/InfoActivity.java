@@ -1,23 +1,14 @@
 package edu.dartmouth.cs.actiontabs;
 
 import android.app.Activity;
-import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
-import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import java.util.ArrayList;
-
 public class InfoActivity extends Activity{
-
 
     private EditText eType, eDate, eDuration, eDistance, eCalories, eHeartRate;
     private String id;
@@ -28,6 +19,7 @@ public class InfoActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
+        //get the values from the selected item in the history fragment
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         id = bundle.getString("ID");
@@ -47,10 +39,27 @@ public class InfoActivity extends Activity{
         eDuration = (EditText) findViewById(R.id.info_duration);
         int minute = duration.intValue();
         int second = (int)((duration - minute) * 60);
-        eDuration.setText(minute + "mins " + second + "secs");
+        if (minute != 0)
+            eDuration.setText(minute + "mins " + second + "secs");
+        else
+            eDuration.setText(second + "secs");
 
+        String res = bundle.getString("method");
         eDistance = (EditText) findViewById(R.id.info_distance);
-        eDistance.setText(distance + " Miles");
+        int dis = distance.intValue();
+        int kdis = (int)(distance * 1.61);
+        if (res.equals("Imperial (Miles)")) {
+            if (dis == distance)
+                eDistance.setText(dis + " Miles");
+            else
+                eDistance.setText(distance + " Miles");
+        }
+        else {
+            if (kdis == distance * 1.61)
+                eDistance.setText(kdis + " Kilometers");
+            else
+                eDistance.setText((distance * 1.61) + " Kilometers");
+        }
 
         eCalories = (EditText) findViewById(R.id.info_calories);
         eCalories.setText(calories + " cals");
@@ -61,6 +70,9 @@ public class InfoActivity extends Activity{
         helper = new DataBaseHelper(getApplicationContext());
     }
 
+    /*
+     * define the menu for deleting
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -68,35 +80,54 @@ public class InfoActivity extends Activity{
         return true;
     }
 
+    /*
+     * called when the delete item is clicked
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_delete:
-                new asyncTask(id).execute();
+//                new asyncTask(id).execute();
+                myThread thread = new myThread(id);
+                thread.start();
                 finish();
                 return true;
         }
         return false;
     }
 
-    class asyncTask extends AsyncTask<Void, Void, Void> {
-        private String ID;
+    //a thread used to delete the selected item
+    class myThread extends Thread {
 
-        public asyncTask(String ID){
+        private String ID;
+        public myThread(String ID) {
             this.ID = ID;
         }
+
         @Override
-        protected Void doInBackground(Void... params) {
+        public void run() {
+            super.run();
             helper.deleteItem(ID);
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
         }
     }
+//    class asyncTask extends AsyncTask<Void, Void, Void> {
+//        private String ID;
+//
+//        public asyncTask(String ID){
+//            this.ID = ID;
+//        }
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            helper.deleteItem(ID);
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//        }
+//    }
 }

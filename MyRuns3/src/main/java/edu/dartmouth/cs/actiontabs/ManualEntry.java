@@ -72,12 +72,14 @@ public class ManualEntry extends ListActivity{
         item.ActivityType = intent.getStringExtra("ActivityType");
         item.InputType = intent.getStringExtra("InputType");
 
-        // Get the ListView and wired the listener
+        // Get the ListView and binds to the listener
         ListView listView = getListView();
         listView.setOnItemClickListener(mListener);
     }
 
-    /** called when the date is clicked */
+    /*
+     * called when the date is clicked
+     */
     private void onDateClicked() {
         DatePickerDialog.OnDateSetListener mDateListener = new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -94,7 +96,9 @@ public class ManualEntry extends ListActivity{
                 mDateAndTime.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    /** called when the time is clicked */
+    /*
+     * called when the time is clicked
+     */
     private void onTimeClicked() {
 
         TimePickerDialog.OnTimeSetListener mTimeListener = new TimePickerDialog.OnTimeSetListener() {
@@ -110,7 +114,9 @@ public class ManualEntry extends ListActivity{
                 mDateAndTime.get(Calendar.MINUTE), true).show();
     }
 
-    /** showing the dialog*/
+    /*
+     * showing the dialog
+     */
     private void showDialog(String title){
         MyAlertDialogFragment mydialog = new MyAlertDialogFragment();
         DialogFragment newFragment = mydialog
@@ -118,9 +124,12 @@ public class ManualEntry extends ListActivity{
         newFragment.show(getFragmentManager(), "dialog");
     }
 
-    public void doCancleClick() {
+    public void doCancelClick() {
     }
 
+    /*
+     * called when the user clicks the save button
+     */
     public void doOkClick(String title, String data) {
         int dataInt = 0;
         double dataDouble = 0;
@@ -171,6 +180,7 @@ public class ManualEntry extends ListActivity{
             else
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
+            //show the result in the dialog
             switch (title){
                 case "Duration":
                     editText.setText(item.Duration < 0 ? "" : item.Duration+"");
@@ -204,13 +214,15 @@ public class ManualEntry extends ListActivity{
                                 public void onClick(DialogInterface dialog,
                                                     int whichButton) {
                                     ((ManualEntry) getActivity())
-                                            .doCancleClick();
+                                            .doCancelClick();
                                 }
                             }).create();
         }
     }
 
-    /** called when the save button is clicked */
+    /*
+     * called when the save button is clicked
+     */
     public void onEntrySaveClicked(View v) {
         item.Date = mDateAndTime.get(Calendar.YEAR) +"-"+ (mDateAndTime.get(Calendar.MONTH)+1) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH);
         item.Time = mDateAndTime.get(Calendar.HOUR_OF_DAY) +":"+ mDateAndTime.get(Calendar.MINUTE) +":"+
@@ -222,7 +234,9 @@ public class ManualEntry extends ListActivity{
         finish();
     }
 
-    /** called when the cancel button is clicked */
+    /*
+     * called when the cancel button is clicked
+     */
     public void onEntryCancelClicked(View v) {
         Toast.makeText(getApplicationContext(), "Entry discarded.",
                 Toast.LENGTH_SHORT).show();
@@ -230,6 +244,9 @@ public class ManualEntry extends ListActivity{
         finish();
     }
 
+    /*
+     * create an asynctask to handle writing to the database.
+     */
     class asyncTask extends AsyncTask<Void, Void, Void> {
         private databaseItem item;
 

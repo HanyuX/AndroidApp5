@@ -31,7 +31,7 @@
         <item>Other</item>
     </string-array>
 
-    <string name="app_name">MyRuns3</string>
+    <string name="app_name">MyRuns4</string>
 
     <!-- Menu -->
     <string name="menu_delete">DELETE</string>
@@ -132,4 +132,5 @@
     <string name="profile_change_button">CHANGE</string>
 
     <string name="menu_settings">settings</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

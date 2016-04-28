@@ -16,6 +16,8 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 /**
@@ -27,7 +29,7 @@ public class trackingService extends Service {
     private double lastAltitude = 0;
     private double lastLongtitude = 0;
     private double lastLatitude = 0;
-    private Long startTime = Calendar.getInstance().getTimeInMillis();
+    private Long startTime;
     private double Ra = 6371.004*0.621371192;
     private double Pi = 3.1415926;
     private NotificationManager notificationManager;
@@ -50,6 +52,7 @@ public class trackingService extends Service {
         criteria.setCostAllowed(true);
         String provider = locationManager.getBestProvider(criteria, true);
 
+        startTime = Calendar.getInstance().getTimeInMillis();
         Location l = locationManager.getLastKnownLocation(provider);
         sendLocationtoMap(l, true);
         locationManager.requestLocationUpdates(provider, 2000, 10,
@@ -75,7 +78,8 @@ public class trackingService extends Service {
     private void sendLocationtoMap(Location location, boolean flag){
         LatLng l = new LatLng(location.getLatitude(), location.getLongitude());
         Item.Latlngs.add(l);
-        Item.CurSpeed = location.getSpeed();
+        DecimalFormat df = new DecimalFormat("#.##");
+        Item.CurSpeed = Double.parseDouble(df.format(location.getSpeed()));
         if(flag){
             Item.AvgSpeed = 0;
             Item.Climb = 0;
@@ -83,14 +87,13 @@ public class trackingService extends Service {
         }else{
             double C = Math.sin(location.getLatitude())*Math.sin(lastLatitude)*Math.cos(location.getLongitude()-lastLongtitude)
                     + Math.cos(location.getLatitude())*Math.cos(lastLatitude);
-            Item.Distance += Math.abs(Ra * Math.acos(C)*Pi/180);
-
+            Item.Distance += Double.parseDouble(df.format(Math.abs(Ra * Math.acos(C)*Pi/180)));
             long nowTime = Calendar.getInstance().getTimeInMillis();
-            double timeDifference = (nowTime-startTime)/(3600*1000);
-            Item.AvgSpeed = timeDifference == 0 ? 0 : Item.Distance/timeDifference;
+            double timeDifference = (nowTime-startTime)/(3600*1000*1.0);
+            Item.AvgSpeed = timeDifference == 0 ? 0 : Double.parseDouble(df.format(Item.Distance/timeDifference));
 
-            double climb = location.getAltitude() - lastAltitude;
-            Item.Climb += climb > 0 ? climb : 0;
+            double climb = (location.getAltitude() - lastAltitude) / 1610.0;
+            Item.Climb += Double.parseDouble(df.format(climb > 0 ? climb : 0));
         }
         lastAltitude = location.getAltitude();
         lastLatitude = location.getLatitude();

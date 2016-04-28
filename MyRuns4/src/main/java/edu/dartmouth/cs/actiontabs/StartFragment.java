@@ -55,11 +55,15 @@ public class StartFragment extends Fragment {
             case "GPS":
                 mIntent = new Intent(getActivity(),
                         MapsActivity.class);
+                mIntent.putExtra("InputType", "GPS");
+                mIntent.putExtra("ActivityType", ActivityType);
                 startActivity(mIntent);
                 break;
             case "Automatic":
                 mIntent = new Intent(getActivity(),
                         MapsActivity.class);
+                mIntent.putExtra("InputType", "Automatic");
+                mIntent.putExtra("ActivityType", ActivityType);
                 startActivity(mIntent);
                 break;
         }

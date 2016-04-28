@@ -54,18 +54,33 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), InfoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("ID", list.get(position).ID);
-                bundle.putString("ActivityType", list.get(position).ActivityType);
-                bundle.putString("DateTime", list.get(position).Time + " " + list.get(position).Date);
-                bundle.putDouble("Duration", list.get(position).Duration);
-                bundle.putDouble("Distance", list.get(position).Distance);
-                bundle.putInt("Calories", list.get(position).Calories);
-                bundle.putInt("HeartRate", list.get(position).HeartRate);
-                bundle.putString("method", res);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (list.get(position).InputType.equals("ManualEntry")) {
+                    Intent intent = new Intent(getActivity(), InfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ID", list.get(position).ID);
+                    bundle.putString("ActivityType", list.get(position).ActivityType);
+                    bundle.putString("DateTime", list.get(position).Time + " " + list.get(position).Date);
+                    bundle.putDouble("Duration", list.get(position).Duration);
+                    bundle.putDouble("Distance", list.get(position).Distance);
+                    bundle.putInt("Calories", list.get(position).Calories);
+                    bundle.putInt("HeartRate", list.get(position).HeartRate);
+                    bundle.putString("method", res);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                else if (list.get(position).InputType.equals("GPS")) {
+                    Intent intent = new Intent(getActivity(), ShowMapActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ID", list.get(position).ID);
+                    bundle.putString("ActivityType", list.get(position).ActivityType);
+                    bundle.putDouble("AvgSpeed", list.get(position).);
+                    bundle.putDouble("CurSpeed", list.get(position).);
+                    bundle.putDouble("Climb", list.get(position).);
+                    bundle.putDouble("Distance", list.get(position).Distance);
+                    bundle.putInt("Calories", list.get(position).Calories);
+                    bundle.putParcelableArrayList("List", list.get(position).);
+                    startActivity(intent);
+                }
             }
         });
         return view;

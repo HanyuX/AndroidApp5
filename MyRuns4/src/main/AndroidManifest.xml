@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.dartmouth.cs.actiontabs"
     android:versionCode="1"
-    android:versionName="1.0">
+    android:versionName="1.0" >
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -20,10 +20,10 @@
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +33,7 @@
         <activity
             android:name=".CameraControlActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="your.action.string" />
 
@@ -59,7 +59,15 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/title_activity_maps" />
+
+        <service android:name=".trackingService" />
+
+        <activity
+            android:name=".ShowMapActivity"
+            android:label="@string/title_activity_show_map" >
+        </activity>
     </application>
 
 </manifest>

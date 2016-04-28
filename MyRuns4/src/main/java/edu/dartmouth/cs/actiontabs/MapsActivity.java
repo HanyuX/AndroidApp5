@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.Calendar;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ServiceConnection {
 
     private GoogleMap mMap;
@@ -29,9 +32,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private trackingService.trackingBinder binder;
     private databaseItem item;
     private TextView status, avgSpeed, curSpeed, climb, calorie, distance;
-    private String type;
+    private String type, inputType;
     private PolylineOptions rectOptions;
     private DataBaseHelper helper;
+    private Calendar mDateAndTime = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setUpMapIfNeeded();
         Intent intent = getIntent();
         type = intent.getStringExtra("ActivityType");
+        inputType = intent.getStringExtra("InputType");
+        System.out.println(inputType);
         status = (TextView)findViewById(R.id.type_stats);
         avgSpeed = (TextView) findViewById(R.id.avg_speed);
         curSpeed = (TextView) findViewById(R.id.cur_speed);
@@ -56,13 +62,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (binder != null) {
                 item = binder.getItems();
                 status.setText("Type: " + type);
-                avgSpeed.setText("Avg speed: " + item.getAvgSpeed() + "m/h");
-                curSpeed.setText("Cur Speed: " + item.getCurSpeed() + "m/h");
-                climb.setText("Climb: " + item.getClimb() + " Miles");
-                int cal = (int)(item.getDistance() * 99.456);
+                avgSpeed.setText("Avg speed: " + item.AvgSpeed + "m/h");
+                curSpeed.setText("Cur Speed: " + item.CurSpeed + "m/h");
+                climb.setText("Climb: " + item.Climb + " Miles");
+                int cal = (int)(item.Distance * 99.456);
                 calorie.setText("Calorie: " + cal);
-                distance.setText("Distance: " + item.getDistance() + " Miles");
-                LatLng loc = item.getLatlngs().get(item.getLatlngs().size() - 1);
+                distance.setText("Distance: " + item.Distance + " Miles");
+                LatLng loc = item.Latlngs.get(item.Latlngs.size() - 1);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc,
                         17));
                 rectOptions.add(loc);
@@ -117,13 +123,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         binder = (trackingService.trackingBinder)service;
         item = binder.getItems();
         status.setText("Type: " + type);
-        avgSpeed.setText("Avg speed: " + item.getAvgSpeed() + "m/h");
-        curSpeed.setText("Cur Speed: " + item.getCurSpeed() + "m/h");
-        climb.setText("Climb: " + item.getClimb() + " Miles");
-        int cal = (int)(item.getDistance() * 99.456);
+        avgSpeed.setText("Avg speed: " + item.AvgSpeed + "m/h");
+        curSpeed.setText("Cur Speed: " + item.CurSpeed + "m/h");
+        climb.setText("Climb: " + item.Climb + " Miles");
+        int cal = (int)(item.Distance * 99.456);
         calorie.setText("Calorie: " + cal);
-        distance.setText("Distance: " + item.getDistance() + " Miles");
-        LatLng loc = item.getLatlngs().get(item.getLatlngs().size() - 1);
+        distance.setText("Distance: " + item.Distance + " Miles");
+        LatLng loc = item.Latlngs.get(item.Latlngs.size() - 1);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc,
                 17));
         rectOptions = new PolylineOptions().add(loc);
@@ -146,14 +152,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         unregisterReceiver(onEvent);
     }
 
-    public void saveMap() {
+    public void saveMap(View view) {
+        item.ActivityType = type;
+        item.InputType = inputType;
+        item.ID = System.currentTimeMillis()+"-"+item.InputType+"-"+item.ActivityType;
+        item.Date = mDateAndTime.get(Calendar.YEAR) +"-"+ (mDateAndTime.get(Calendar.MONTH)+1) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH);
+        item.Time = mDateAndTime.get(Calendar.HOUR_OF_DAY) +":"+ mDateAndTime.get(Calendar.MINUTE) +":"+
+                (mDateAndTime.get(Calendar.SECOND) == 0 ? "00" : mDateAndTime.get(Calendar.SECOND));
+        item.Duration = 0;
         new asyncTask(item).execute();
         Toast.makeText(getApplicationContext(), "Entry saved.",
                 Toast.LENGTH_SHORT).show();
         finish();
     }
 
-    public void cancelMap() {
+    public void cancelMap(View view) {
         finish();
     }
 

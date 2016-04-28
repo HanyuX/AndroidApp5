@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,12 +74,13 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
                     Bundle bundle = new Bundle();
                     bundle.putString("ID", list.get(position).ID);
                     bundle.putString("ActivityType", list.get(position).ActivityType);
-                    bundle.putDouble("AvgSpeed", list.get(position).);
-                    bundle.putDouble("CurSpeed", list.get(position).);
-                    bundle.putDouble("Climb", list.get(position).);
+                    bundle.putDouble("AvgSpeed", list.get(position).AvgSpeed);
+                    bundle.putDouble("CurSpeed", list.get(position).CurSpeed);
+                    bundle.putDouble("Climb", list.get(position).Climb);
                     bundle.putDouble("Distance", list.get(position).Distance);
                     bundle.putInt("Calories", list.get(position).Calories);
-                    bundle.putParcelableArrayList("List", list.get(position).);
+                    bundle.putParcelableArrayList("List", (ArrayList<? extends Parcelable>) list.get(position).Latlngs);
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
             }
@@ -136,7 +138,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
             TextView textview1 = (TextView) convertView.findViewById(R.id.method_time);
             TextView textview2 = (TextView) convertView.findViewById(R.id.mile_time);
 
-            textview1.setText("Manual Entry: " + list.get(position).ActivityType + "," + list.get(position).Time + " " + list.get(position).Date);
+            textview1.setText(list.get(position).InputType + ": " + list.get(position).ActivityType + "," + list.get(position).Time + " " + list.get(position).Date);
             int minute = (int)list.get(position).Duration;
             int second = (int)((list.get(position).Duration - minute) * 60);
             int dis = (int)list.get(position).Distance;

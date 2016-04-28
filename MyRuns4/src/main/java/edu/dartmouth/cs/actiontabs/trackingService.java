@@ -20,7 +20,7 @@ import java.util.Calendar;
  */
 public class trackingService extends Service {
     private final IBinder mBinder = new trackingBinder();
-    private mapItem mMapItem = new mapItem();
+    private databaseItem Item = new databaseItem();
     private double lastAltitude = 0;
     private double lastLongtitude = 0;
     private double lastLatitude = 0;
@@ -69,22 +69,23 @@ public class trackingService extends Service {
 
     private void sendLocationtoMap(Location location, boolean flag){
         LatLng l = new LatLng(location.getLatitude(), location.getLongitude());
-        mMapItem.getLatlngs().add(l);
-        mMapItem.setCurSpeed(location.getSpeed());
+        Item.Latlngs.add(l);
+        Item.CurSpeed = location.getSpeed();
         if(flag){
-            mMapItem.setAvgSpeed(0);
-            mMapItem.setClimb(0);
-            mMapItem.setDistance(0);
+            Item.AvgSpeed = 0;
+            Item.Climb = 0;
+            Item.Distance = 0;
         }else{
             double C = Math.sin(location.getLatitude())*Math.sin(lastLatitude)*Math.cos(location.getLongitude()-lastLongtitude)
                     + Math.cos(location.getLatitude())*Math.cos(lastLatitude);
-            mMapItem.setDistance(mMapItem.getDistance() + Math.abs(R * Math.acos(C)*Pi/180));
+            Item.Distance += Math.abs(R * Math.acos(C)*Pi/180);
 
             long nowTime = Calendar.getInstance().getTimeInMillis();
-            mMapItem.setAvgSpeed(mMapItem.getDistance()/((nowTime-startTime)/(3600*1000)));
+            double timeDifference = (nowTime-startTime)/(3600*1000);
+            Item.AvgSpeed = timeDifference == 0 ? 0 : Item.Distance/timeDifference;
 
             double climb = location.getAltitude() - lastAltitude;
-            mMapItem.setClimb(mMapItem.getClimb() + climb > 0 ? climb : 0);
+            Item.Climb += climb > 0 ? climb : 0;
         }
         lastAltitude = location.getAltitude();
         lastLatitude = location.getLatitude();
@@ -94,8 +95,8 @@ public class trackingService extends Service {
     }
 
     public class trackingBinder extends Binder {
-        public mapItem getItems() {
-            return mMapItem;
+        public databaseItem getItems() {
+            return Item;
         }
     }
 }

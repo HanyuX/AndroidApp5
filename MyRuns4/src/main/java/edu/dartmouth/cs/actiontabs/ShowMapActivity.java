@@ -1,14 +1,20 @@
 package edu.dartmouth.cs.actiontabs;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
 
@@ -16,6 +22,9 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
 
     private GoogleMap mMap;
     private TextView status, avgSpeed, curSpeed, climb, calorie, distance;
+    private String id;
+    private DataBaseHelper helper;
+    private PolylineOptions rectOptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +38,7 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         climb = (TextView) findViewById(R.id.climb);
         calorie = (TextView) findViewById(R.id.map_calorie);
         distance = (TextView) findViewById(R.id.map_distance);
+        helper = new DataBaseHelper(getApplicationContext());
     }
 
 
@@ -48,6 +58,7 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String activityType = bundle.getString("ActivityType");
+        id = bundle.getString("ID");
         status.setText("Type: " + activityType);
         double avgspeed = bundle.getDouble("AvgSpeed");
         avgSpeed.setText("Avg speed: " + avgspeed + " m/h");
@@ -61,6 +72,19 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         distance.setText("Distance: " + dis + " Miles");
 
         List<LatLng> list = bundle.getParcelableArrayList("List");
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(list.get(list.size()-1),
+                17));
+        for (int i = 0; i < list.size(); i++) {
+            if (i == 0) {
+                rectOptions = new PolylineOptions().add(list.get(i));
+            }
+            else {
+                rectOptions.add(list.get(i));
+                rectOptions.color(Color.RED);
+                mMap.addPolyline(rectOptions);
+                rectOptions = new PolylineOptions().add(list.get(i));
+            }
+        }
 
     }
 
@@ -77,4 +101,46 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         }
         mapFragment.getMapAsync(this);
     }
+
+    /*
+ * define the menu for deleting
+ */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    /*
+     * called when the delete item is clicked
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_delete:
+//                new asyncTask(id).execute();
+                myThread thread = new myThread(id);
+                thread.start();
+                finish();
+                return true;
+        }
+        return false;
+    }
+
+    //a thread used to delete the selected item
+    class myThread extends Thread {
+
+        private String ID;
+        public myThread(String ID) {
+            this.ID = ID;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            helper.deleteItem(ID);
+        }
+    }
+
 }

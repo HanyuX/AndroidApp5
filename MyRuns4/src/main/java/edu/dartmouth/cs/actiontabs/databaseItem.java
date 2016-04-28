@@ -1,5 +1,10 @@
 package edu.dartmouth.cs.actiontabs;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by xuehanyu on 4/19/16.
  */
@@ -15,8 +20,14 @@ public class databaseItem {
     public String InputType = "";         //input type
     public String ActivityType = "";      //the activity type
 
+    public List<LatLng> Latlngs = new ArrayList<>();
+    public double Climb = -1;
+    public double AvgSpeed = -1;
+    public double CurSpeed = -1;
+
     public databaseItem(String ID, String Date, String Time, double Duration, double Distance, int Calories,
-                        int HeartRate, String Comment, String InputType, String ActivityType){
+                        int HeartRate, String Comment, String InputType, String ActivityType, double Climb,
+                        double AvgSpeed, double CurSpeed, List<LatLng> Latlngs){
         this.ID = ID;
         this.Date = Date;
         this.Time = Time;
@@ -27,6 +38,10 @@ public class databaseItem {
         this.Comment = Comment;
         this.InputType = InputType;
         this.ActivityType = ActivityType;
+        this.Climb = Climb;
+        this.AvgSpeed = AvgSpeed;
+        this.CurSpeed = CurSpeed;
+        this.Latlngs = Latlngs;
     }
 
     public databaseItem(){}

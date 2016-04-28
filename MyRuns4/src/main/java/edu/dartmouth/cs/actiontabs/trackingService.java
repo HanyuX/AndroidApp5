@@ -20,7 +20,7 @@ import java.util.Calendar;
  */
 public class trackingService extends Service {
     private final IBinder mBinder = new trackingBinder();
-    private mapItem mMapItem = new mapItem();
+    private databaseItem Item = new databaseItem();
     private double lastAltitude = 0;
     private double lastLongtitude = 0;
     private double lastLatitude = 0;
@@ -68,22 +68,23 @@ public class trackingService extends Service {
 
     private void sendLocationtoMap(Location location, boolean flag){
         LatLng l = new LatLng(location.getLatitude(), location.getLongitude());
-        mMapItem.latlngs.add(l);
-        mMapItem.curSpeed = location.getSpeed();
+        Item.Latlngs.add(l);
+        Item.CurSpeed = location.getSpeed();
         if(flag){
-            mMapItem.avgSpeed = 0;
-            mMapItem.climb = 0;
-            mMapItem.distance = 0;
+            Item.AvgSpeed = 0;
+            Item.Climb = 0;
+            Item.Distance = 0;
         }else{
             double C = Math.sin(location.getLatitude())*Math.sin(lastLatitude)*Math.cos(location.getLongitude()-lastLongtitude)
                     + Math.cos(location.getLatitude())*Math.cos(lastLatitude);
-            mMapItem.distance += Math.abs(R * Math.acos(C)*Pi/180);
+            Item.Distance += Math.abs(R * Math.acos(C)*Pi/180);
 
             long nowTime = Calendar.getInstance().getTimeInMillis();
-            mMapItem.avgSpeed = mMapItem.distance/((nowTime-startTime)/(3600*1000));
+            double timeDifference = (nowTime-startTime)/(3600*1000);
+            Item.AvgSpeed = timeDifference == 0 ? 0 : Item.Distance/timeDifference;
 
             double climb = location.getAltitude() - lastAltitude;
-            mMapItem.climb += climb > 0 ? climb : 0;
+            Item.Climb += climb > 0 ? climb : 0;
         }
         lastAltitude = location.getAltitude();
         lastLatitude = location.getLatitude();
@@ -93,8 +94,8 @@ public class trackingService extends Service {
     }
 
     public class trackingBinder extends Binder {
-        public mapItem getItems() {
-            return mMapItem;
+        public databaseItem getItems() {
+            return Item;
         }
     }
 }

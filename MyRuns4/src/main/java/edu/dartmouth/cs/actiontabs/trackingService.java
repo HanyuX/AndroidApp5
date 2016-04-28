@@ -1,5 +1,8 @@
 package edu.dartmouth.cs.actiontabs;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -25,8 +28,9 @@ public class trackingService extends Service {
     private double lastLongtitude = 0;
     private double lastLatitude = 0;
     private Long startTime = Calendar.getInstance().getTimeInMillis();
-    private double R = 6371.004*0.621371192;
+    private double Ra = 6371.004*0.621371192;
     private double Pi = 3.1415926;
+    private NotificationManager notificationManager;
     public static final String ACTION_UPDATE = "Update_Location";
     @Override
     public void onCreate(){
@@ -35,6 +39,7 @@ public class trackingService extends Service {
         LocationManager locationManager;
         String svcName= Context.LOCATION_SERVICE;
         locationManager = (LocationManager)getSystemService(svcName);
+        showNotification();
 
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
@@ -78,7 +83,7 @@ public class trackingService extends Service {
         }else{
             double C = Math.sin(location.getLatitude())*Math.sin(lastLatitude)*Math.cos(location.getLongitude()-lastLongtitude)
                     + Math.cos(location.getLatitude())*Math.cos(lastLatitude);
-            Item.Distance += Math.abs(R * Math.acos(C)*Pi/180);
+            Item.Distance += Math.abs(Ra * Math.acos(C)*Pi/180);
 
             long nowTime = Calendar.getInstance().getTimeInMillis();
             double timeDifference = (nowTime-startTime)/(3600*1000);
@@ -98,5 +103,27 @@ public class trackingService extends Service {
         public databaseItem getItems() {
             return Item;
         }
+    }
+
+    public void showNotification() {
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+            new Intent(this, MapsActivity.class), 0);
+        Notification notification = new Notification.Builder(this)
+                .setContentTitle("MyRuns")
+                .setContentText(
+                        "Recording your path now")
+                .setSmallIcon(R.drawable.ic_cs)
+                .setContentIntent(contentIntent).build();
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notification.flags = notification.flags
+                | Notification.FLAG_ONGOING_EVENT;
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notificationManager.notify(0, notification);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        notificationManager.cancelAll();
     }
 }

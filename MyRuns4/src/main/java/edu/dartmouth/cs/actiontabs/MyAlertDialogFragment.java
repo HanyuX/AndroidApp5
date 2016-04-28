@@ -10,7 +10,6 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.widget.EditText;
 
 /** the fragment used to show the dialog */

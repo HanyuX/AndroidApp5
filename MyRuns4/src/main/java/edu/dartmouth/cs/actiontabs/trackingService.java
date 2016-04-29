@@ -109,13 +109,14 @@ public class trackingService extends Service {
     }
 
     public void showNotification() {
+        Intent resultIntent = new Intent(this, MapsActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-            new Intent(this, MapsActivity.class), 0);
+            resultIntent, 0);
         Notification notification = new Notification.Builder(this)
                 .setContentTitle("MyRuns")
                 .setContentText(
                         "Recording your path now")
-                .setSmallIcon(R.drawable.ic_cs)
+                .setSmallIcon(R.drawable.default_profile)
                 .setContentIntent(contentIntent).build();
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notification.flags = notification.flags

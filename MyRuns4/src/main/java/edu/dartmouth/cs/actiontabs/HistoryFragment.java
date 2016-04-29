@@ -75,7 +75,19 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
                     bundle.putString("ID", list.get(position).ID);
                     bundle.putString("ActivityType", list.get(position).ActivityType);
                     bundle.putDouble("AvgSpeed", list.get(position).AvgSpeed);
-                    bundle.putDouble("CurSpeed", list.get(position).CurSpeed);
+                    bundle.putDouble("Climb", list.get(position).Climb);
+                    bundle.putDouble("Distance", list.get(position).Distance);
+                    bundle.putInt("Calories", list.get(position).Calories);
+                    bundle.putParcelableArrayList("List", (ArrayList<? extends Parcelable>) list.get(position).Latlngs);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                else if (list.get(position).InputType.equals("Automatic")) {
+                    Intent intent = new Intent(getActivity(), ShowMapActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ID", list.get(position).ID);
+                    bundle.putString("ActivityType", list.get(position).ActivityType);
+                    bundle.putDouble("AvgSpeed", list.get(position).AvgSpeed);
                     bundle.putDouble("Climb", list.get(position).Climb);
                     bundle.putDouble("Distance", list.get(position).Distance);
                     bundle.putInt("Calories", list.get(position).Calories);

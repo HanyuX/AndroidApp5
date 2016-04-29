@@ -60,13 +60,15 @@
         <activity
             android:name=".MapsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps"
+            android:launchMode="singleInstance"/>
 
         <service android:name=".trackingService" />
 
         <activity
             android:name=".ShowMapActivity"
-            android:label="@string/title_activity_show_map" >
+            android:label="@string/title_activity_show_map"
+            android:launchMode="singleInstance">
         </activity>
     </application>
 

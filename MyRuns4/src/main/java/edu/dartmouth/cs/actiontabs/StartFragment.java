@@ -63,7 +63,7 @@ public class StartFragment extends Fragment {
                 mIntent = new Intent(getActivity(),
                         MapsActivity.class);
                 mIntent.putExtra("InputType", "Automatic");
-                mIntent.putExtra("ActivityType", ActivityType);
+                mIntent.putExtra("ActivityType", "Unknown");
                 startActivity(mIntent);
                 break;
         }

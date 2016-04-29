@@ -20,7 +20,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.Calendar;
@@ -36,6 +39,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private PolylineOptions rectOptions;
     private DataBaseHelper helper;
     private Calendar mDateAndTime = Calendar.getInstance();
+    private long startTime;
+    private Marker startMarker, endMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +77,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc,
                         17));
                 rectOptions.add(loc);
-                rectOptions.color(Color.RED);
+                rectOptions.color(Color.BLACK);
                 mMap.addPolyline(rectOptions);
                 rectOptions = new PolylineOptions().add(loc);
+                if (endMarker != null) {
+                    endMarker.remove();
+                }
+                endMarker = mMap.addMarker(new MarkerOptions().position(loc).icon(BitmapDescriptorFactory.defaultMarker(
+                        BitmapDescriptorFactory.HUE_RED)));
             }
         }
     };
@@ -96,6 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         bindService(new Intent(this, trackingService.class), mConnection, Context.BIND_AUTO_CREATE);
         IntentFilter filter = new IntentFilter(trackingService.ACTION_UPDATE);
         registerReceiver(onEvent, filter);
+        startTime = Calendar.getInstance().getTimeInMillis();
     }
 
     private void setUpMapIfNeeded() {
@@ -133,6 +144,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc,
                 17));
         rectOptions = new PolylineOptions().add(loc);
+        startMarker = mMap.addMarker(new MarkerOptions().position(loc).icon(BitmapDescriptorFactory.defaultMarker(
+                BitmapDescriptorFactory.HUE_GREEN)));
     }
 
     @Override
@@ -159,10 +172,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         item.Date = mDateAndTime.get(Calendar.YEAR) +"-"+ (mDateAndTime.get(Calendar.MONTH)+1) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH);
         item.Time = mDateAndTime.get(Calendar.HOUR_OF_DAY) +":"+ mDateAndTime.get(Calendar.MINUTE) +":"+
                 (mDateAndTime.get(Calendar.SECOND) == 0 ? "00" : mDateAndTime.get(Calendar.SECOND));
-        item.Duration = 0;
+        long nowTime = Calendar.getInstance().getTimeInMillis();
+        item.Duration = (nowTime - startTime) / (1000 * 60 * 1.0);
         new asyncTask(item).execute();
-        Toast.makeText(getApplicationContext(), "Entry saved.",
-                Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -170,16 +182,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         finish();
     }
 
-    class asyncTask extends AsyncTask<Void, Void, Void> {
+    class asyncTask extends AsyncTask<Void, Void, Integer> {
         private databaseItem item;
 
         public asyncTask(databaseItem item){
             this.item = item;
         }
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Integer doInBackground(Void... params) {
             helper.addItem(item);
-            return null;
+            return helper.allItems().size();
         }
 
         @Override
@@ -187,7 +199,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Integer result) {
+            Toast.makeText(getApplicationContext(), "Entry #"+ result + " saved.",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 }

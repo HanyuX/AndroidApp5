@@ -13,7 +13,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
@@ -25,6 +28,7 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
     private String id;
     private DataBaseHelper helper;
     private PolylineOptions rectOptions;
+    private Marker startMarker, endMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +66,7 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         status.setText("Type: " + activityType);
         double avgspeed = bundle.getDouble("AvgSpeed");
         avgSpeed.setText("Avg speed: " + avgspeed + " m/h");
-        double curspeed = bundle.getDouble("CurSpeed");
-        curSpeed.setText("Cur Speed: " + curspeed + " m/h");
+        curSpeed.setText("Cur Speed: n/a");
         double tclimb = bundle.getDouble("Climb");
         climb.setText("Climb: " + tclimb + " Miles");
         int cal = bundle.getInt("Calories");
@@ -72,7 +75,7 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         distance.setText("Distance: " + dis + " Miles");
 
         List<LatLng> list = bundle.getParcelableArrayList("List");
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(list.get(list.size()-1),
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(list.get(list.size() - 1),
                 17));
         for (int i = 0; i < list.size(); i++) {
             if (i == 0) {
@@ -85,7 +88,10 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
                 rectOptions = new PolylineOptions().add(list.get(i));
             }
         }
-
+        mMap.addMarker(new MarkerOptions().position(list.get(0)).icon(BitmapDescriptorFactory.defaultMarker(
+                BitmapDescriptorFactory.HUE_GREEN)));
+        mMap.addMarker(new MarkerOptions().position(list.get(list.size()-1)).icon(BitmapDescriptorFactory.defaultMarker(
+                BitmapDescriptorFactory.HUE_RED)));
     }
 
     private void setUpMapIfNeeded() {

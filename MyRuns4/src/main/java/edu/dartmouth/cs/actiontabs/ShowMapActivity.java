@@ -15,7 +15,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -28,7 +27,6 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
     private String id;
     private DataBaseHelper helper;
     private PolylineOptions rectOptions;
-    private Marker startMarker, endMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +81,7 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
             }
             else {
                 rectOptions.add(list.get(i));
-                rectOptions.color(Color.RED);
+                rectOptions.color(Color.BLACK);
                 mMap.addPolyline(rectOptions);
                 rectOptions = new PolylineOptions().add(list.get(i));
             }
@@ -125,7 +123,6 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_delete:
-//                new asyncTask(id).execute();
                 myThread thread = new myThread(id);
                 thread.start();
                 finish();

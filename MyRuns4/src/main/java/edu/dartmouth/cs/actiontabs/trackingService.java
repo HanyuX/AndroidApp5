@@ -85,8 +85,7 @@ public class trackingService extends Service {
             Item.Climb = 0;
             Item.Distance = 0;
         }else{
-            double C = Math.sin(location.getLatitude())*Math.sin(lastLatitude)*Math.cos(location.getLongitude()-lastLongtitude)
-                    + Math.cos(location.getLatitude())*Math.cos(lastLatitude);
+            double C = Math.sin(location.getLatitude())*Math.sin(lastLatitude) + Math.cos(location.getLatitude())*Math.cos(lastLatitude)*Math.cos(location.getLongitude()-lastLongtitude);
             Item.Distance += Double.parseDouble(df.format(Math.abs(Ra * Math.acos(C)*Pi/180)));
             long nowTime = Calendar.getInstance().getTimeInMillis();
             double timeDifference = (nowTime-startTime)/(3600*1000*1.0);
@@ -116,7 +115,7 @@ public class trackingService extends Service {
                 .setContentTitle("MyRuns")
                 .setContentText(
                         "Recording your path now")
-                .setSmallIcon(R.drawable.default_profile)
+                .setSmallIcon(R.drawable.ic_cs)
                 .setContentIntent(contentIntent).build();
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notification.flags = notification.flags

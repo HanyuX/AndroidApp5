@@ -30,6 +30,11 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
     private MyAdapter adapter;
     private String res;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
     /*
      * called when the activity is created
      */

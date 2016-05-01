@@ -169,6 +169,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         item.ActivityType = type;
         item.InputType = inputType;
         item.ID = System.currentTimeMillis()+"-"+item.InputType+"-"+item.ActivityType;
+        item.Calories = (int)(item.Distance * 99.456);
         item.Date = mDateAndTime.get(Calendar.YEAR) +"-"+ (mDateAndTime.get(Calendar.MONTH)+1) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH);
         item.Time = mDateAndTime.get(Calendar.HOUR_OF_DAY) +":"+ mDateAndTime.get(Calendar.MINUTE) +":"+
                 (mDateAndTime.get(Calendar.SECOND) == 0 ? "00" : mDateAndTime.get(Calendar.SECOND));

@@ -60,43 +60,43 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                if (list.get(position).InputType.equals("ManualEntry")) {
+                if (list.get(position).getInputType().equals("ManualEntry")) {
                     Intent intent = new Intent(getActivity(), InfoActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("ID", list.get(position).ID);
-                    bundle.putString("ActivityType", list.get(position).ActivityType);
-                    bundle.putString("DateTime", list.get(position).Time + " " + list.get(position).Date);
-                    bundle.putDouble("Duration", list.get(position).Duration);
-                    bundle.putDouble("Distance", list.get(position).Distance);
-                    bundle.putInt("Calories", list.get(position).Calories);
-                    bundle.putInt("HeartRate", list.get(position).HeartRate);
+                    bundle.putString("ID", list.get(position).getID());
+                    bundle.putString("ActivityType", list.get(position).getActivityType());
+                    bundle.putString("DateTime", list.get(position).getTime() + " " + list.get(position).getDate());
+                    bundle.putDouble("Duration", list.get(position).getDuration());
+                    bundle.putDouble("Distance", list.get(position).getDistance());
+                    bundle.putInt("Calories", list.get(position).getCalories());
+                    bundle.putInt("HeartRate", list.get(position).getHeartRate());
                     bundle.putString("method", res);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
-                else if (list.get(position).InputType.equals("GPS")) {
+                else if (list.get(position).getInputType().equals("GPS")) {
                     Intent intent = new Intent(getActivity(), ShowMapActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("ID", list.get(position).ID);
-                    bundle.putString("ActivityType", list.get(position).ActivityType);
-                    bundle.putDouble("AvgSpeed", list.get(position).AvgSpeed);
-                    bundle.putDouble("Climb", list.get(position).Climb);
-                    bundle.putDouble("Distance", list.get(position).Distance);
-                    bundle.putInt("Calories", list.get(position).Calories);
-                    bundle.putParcelableArrayList("List", (ArrayList<? extends Parcelable>) list.get(position).Latlngs);
+                    bundle.putString("ID", list.get(position).getID());
+                    bundle.putString("ActivityType", list.get(position).getActivityType());
+                    bundle.putDouble("AvgSpeed", list.get(position).getAvgSpeed());
+                    bundle.putDouble("Climb", list.get(position).getClimb());
+                    bundle.putDouble("Distance", list.get(position).getDistance());
+                    bundle.putInt("Calories", list.get(position).getCalories());
+                    bundle.putParcelableArrayList("List", (ArrayList<? extends Parcelable>) list.get(position).getLatlngs());
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
-                else if (list.get(position).InputType.equals("Automatic")) {
+                else if (list.get(position).getInputType().equals("Automatic")) {
                     Intent intent = new Intent(getActivity(), ShowMapActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("ID", list.get(position).ID);
-                    bundle.putString("ActivityType", list.get(position).ActivityType);
-                    bundle.putDouble("AvgSpeed", list.get(position).AvgSpeed);
-                    bundle.putDouble("Climb", list.get(position).Climb);
-                    bundle.putDouble("Distance", list.get(position).Distance);
-                    bundle.putInt("Calories", list.get(position).Calories);
-                    bundle.putParcelableArrayList("List", (ArrayList<? extends Parcelable>) list.get(position).Latlngs);
+                    bundle.putString("ID", list.get(position).getID());
+                    bundle.putString("ActivityType", list.get(position).getActivityType());
+                    bundle.putDouble("AvgSpeed", list.get(position).getAvgSpeed());
+                    bundle.putDouble("Climb", list.get(position).getClimb());
+                    bundle.putDouble("Distance", list.get(position).getDistance());
+                    bundle.putInt("Calories", list.get(position).getCalories());
+                    bundle.putParcelableArrayList("List", (ArrayList<? extends Parcelable>) list.get(position).getLatlngs());
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
@@ -154,40 +154,40 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
             TextView textview1 = (TextView) convertView.findViewById(R.id.method_time);
             TextView textview2 = (TextView) convertView.findViewById(R.id.mile_time);
 
-            textview1.setText(list.get(position).InputType + ": " + list.get(position).ActivityType + "," + list.get(position).Time + " " + list.get(position).Date);
-            int minute = (int)list.get(position).Duration;
-            int second = (int)((list.get(position).Duration - minute) * 60);
-            int dis = (int)list.get(position).Distance;
-            int kdis = (int)(list.get(position).Distance * 1.61);
+            textview1.setText(list.get(position).getInputType() + ": " + list.get(position).getActivityType() + "," + list.get(position).getTime() + " " + list.get(position).getDate());
+            int minute = (int)list.get(position).getDuration();
+            int second = (int)((list.get(position).getDuration() - minute) * 60);
+            int dis = (int)list.get(position).getDistance();
+            int kdis = (int)(list.get(position).getDistance() * 1.61);
 
             //when the res == Imperial(Miles)
             if (res.equals("Imperial (Miles)")) {
                 if (minute != 0) {
-                    if (dis == list.get(position).Distance)
+                    if (dis == list.get(position).getDistance())
                         textview2.setText(dis + " Miles, " + minute + "mins " + second + "secs");
                     else
-                        textview2.setText(list.get(position).Distance + " Miles, " + minute + "mins " + second + "secs");
+                        textview2.setText(list.get(position).getDistance() + " Miles, " + minute + "mins " + second + "secs");
                 }
                 else {
-                    if (dis == list.get(position).Distance)
+                    if (dis == list.get(position).getDistance())
                         textview2.setText(dis + " Miles, " + second + "secs");
                     else
-                        textview2.setText(list.get(position).Distance + " Miles, " + second + "secs");
+                        textview2.setText(list.get(position).getDistance() + " Miles, " + second + "secs");
                 }
             }
             //when the res == Metric (Kilometers)
             else {
                 if (minute != 0) {
-                    if (kdis == (list.get(position).Distance * 1.61))
+                    if (kdis == (list.get(position).getDistance() * 1.61))
                         textview2.setText(kdis + " Kilometers, " + minute + "mins " + second + "secs");
                     else
-                        textview2.setText((list.get(position).Distance * 1.61) + " Kilometers, " + minute + "mins " + second + "secs");
+                        textview2.setText((list.get(position).getDistance() * 1.61) + " Kilometers, " + minute + "mins " + second + "secs");
                 }
                 else {
-                    if (kdis == (list.get(position).Distance * 1.61))
+                    if (kdis == (list.get(position).getDistance() * 1.61))
                         textview2.setText(kdis + " Kilometers, " + second + "secs");
                     else
-                        textview2.setText((list.get(position).Distance * 1.61) + " Kilometers, " + second + "secs");
+                        textview2.setText((list.get(position).getDistance() * 1.61) + " Kilometers, " + second + "secs");
                 }
             }
             return convertView;

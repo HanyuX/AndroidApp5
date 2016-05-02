@@ -32,19 +32,19 @@ public class MyAlertDialogFragment extends DialogFragment {
             dataInt = Integer.parseInt(data);
         switch (title) {
             case "Duration":
-                item.Duration = dataDouble;
+                item.setDuration(dataDouble);
                 break;
             case "Distance":
-                item.Distance = dataDouble;
+                item.setDistance(dataDouble);
                 break;
             case "Calories":
-                item.Calories = dataInt;
+                item.setCalories(dataInt);
                 break;
             case "Heart Rate":
-                item.HeartRate = dataInt;
+                item.setHeartRate(dataInt);
                 break;
             case "Comment":
-                item.Comment = data;
+                item.setComment(data);
         }
     }
 
@@ -76,19 +76,19 @@ public class MyAlertDialogFragment extends DialogFragment {
         //show the result in the dialog
         switch (title){
             case "Duration":
-                editText.setText(item.Duration < 0 ? "" : item.Duration+"");
+                editText.setText(item.getDuration() < 0 ? "" : item.getDuration()+"");
                 break;
             case "Distance":
-                editText.setText(item.Distance < 0 ? "" : item.Distance+"");
+                editText.setText(item.getDistance() < 0 ? "" : item.getDistance()+"");
                 break;
             case "Calories":
-                editText.setText(item.Calories < 0 ? "" : item.Calories+"");
+                editText.setText(item.getCalories() < 0 ? "" : item.getCalories()+"");
                 break;
             case "Heart Rate":
-                editText.setText(item.HeartRate < 0 ? "" : item.HeartRate+"");
+                editText.setText(item.getHeartRate() < 0 ? "" : item.getHeartRate()+"");
                 break;
             case "Comment":
-                editText.setText(item.Comment+"");
+                editText.setText(item.getComment()+"");
         }
 
         return new AlertDialog.Builder(getActivity())

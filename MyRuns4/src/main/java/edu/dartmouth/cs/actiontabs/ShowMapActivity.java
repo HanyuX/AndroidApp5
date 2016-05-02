@@ -119,8 +119,8 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
     }
 
     /*
- * define the menu for deleting
- */
+    * define the menu for deleting
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

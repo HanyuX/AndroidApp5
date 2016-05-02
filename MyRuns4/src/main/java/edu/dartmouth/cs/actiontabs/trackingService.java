@@ -21,6 +21,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 
 /**
+ * Service to track position by Android System Service
  * Created by xuehanyu on 4/27/16.
  */
 public class trackingService extends Service {
@@ -37,7 +38,6 @@ public class trackingService extends Service {
     @Override
     public void onCreate(){
         super.onCreate();
-        Log.d("xue","create");
         LocationManager locationManager;
         String svcName= Context.LOCATION_SERVICE;
         locationManager = (LocationManager)getSystemService(svcName);
@@ -64,6 +64,9 @@ public class trackingService extends Service {
         return mBinder;
     }
 
+    /*
+     * Listener for location service
+     */
     private final LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             sendLocationtoMap(location, false);
@@ -75,29 +78,32 @@ public class trackingService extends Service {
                                     Bundle extras) {}
     };
 
+    /*
+     * When location is changed, the function will be called
+     * Position information is broadcast out
+     */
     private void sendLocationtoMap(Location location, boolean flag){
         LatLng l = new LatLng(location.getLatitude(), location.getLongitude());
-        Item.Latlngs.add(l);
+        Item.getLatlngs().add(l);
         DecimalFormat df = new DecimalFormat("#.##");
-        Item.CurSpeed = Double.parseDouble(df.format(location.getSpeed()*3.6/1.6));
+        Item.setCurSpeed(Double.parseDouble(df.format(location.getSpeed()*3.6/1.6)));
         if(flag){
-            Item.AvgSpeed = 0;
-            Item.Climb = 0;
-            Item.Distance = 0;
+            Item.setAvgSpeed(0);
+            Item.setClimb(0);
+            Item.setDistance(0);
         }else{
             double C = Math.sin(location.getLatitude())*Math.sin(lastLatitude) + Math.cos(location.getLatitude())*Math.cos(lastLatitude)*Math.cos(location.getLongitude()-lastLongtitude);
-            Item.Distance += Double.parseDouble(df.format(Math.abs(Ra * Math.acos(C)*Pi/180)));
+            Item.setDistance(Item.getDistance() + Double.parseDouble(df.format(Math.abs(Ra * Math.acos(C)*Pi/180))));
             long nowTime = Calendar.getInstance().getTimeInMillis();
             double timeDifference = (nowTime-startTime)/(3600*1000*1.0);
-            Item.AvgSpeed = timeDifference == 0 ? 0 : Double.parseDouble(df.format(Item.Distance/timeDifference));
+            Item.setAvgSpeed(timeDifference == 0 ? 0 : Double.parseDouble(df.format(Item.getDistance()/timeDifference)));
 
             double climb = (location.getAltitude() - lastAltitude) / 1610.0;
-            Item.Climb += Double.parseDouble(df.format(climb > 0 ? climb : 0));
+            Item.setClimb(Item.getClimb() + Double.parseDouble(df.format(climb > 0 ? climb : 0)));
         }
         lastAltitude = location.getAltitude();
         lastLatitude = location.getLatitude();
         lastLongtitude = location.getLongitude();
-        Log.d("xue", "update");
         sendBroadcast(new Intent(ACTION_UPDATE));
     }
 
@@ -107,6 +113,9 @@ public class trackingService extends Service {
         }
     }
 
+    /*
+     * The notification is clicked, MapsActivity will be open
+     */
     public void showNotification() {
         Intent resultIntent = new Intent(this, MapsActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
@@ -115,7 +124,7 @@ public class trackingService extends Service {
                 .setContentTitle("MyRuns")
                 .setContentText(
                         "Recording your path now")
-                .setSmallIcon(R.drawable.ic_cs)
+                .setSmallIcon(R.drawable.icon)
                 .setContentIntent(contentIntent).build();
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notification.flags = notification.flags

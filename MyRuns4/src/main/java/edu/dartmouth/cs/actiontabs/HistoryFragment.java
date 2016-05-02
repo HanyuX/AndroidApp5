@@ -6,9 +6,9 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,8 +149,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
             if (convertView == null) {
                 convertView = layoutInflater.inflate(R.layout.item_historylayout, null);
             }
-            SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-            res = sharedPreferences.getString("measure", "Imperial (Miles)");
+            res = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("Unit Preference", "Imperial (Miles)");
 
             TextView textview1 = (TextView) convertView.findViewById(R.id.method_time);
             TextView textview2 = (TextView) convertView.findViewById(R.id.mile_time);
@@ -224,7 +223,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
      * reload the data
      */
     public void reLoadData(){
-        getLoaderManager().restartLoader(0, null, this);
+        getLoaderManager().restartLoader(0, null, this).forceLoad();
     }
 
     /*

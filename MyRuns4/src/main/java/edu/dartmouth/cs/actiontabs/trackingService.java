@@ -79,7 +79,7 @@ public class trackingService extends Service {
         LatLng l = new LatLng(location.getLatitude(), location.getLongitude());
         Item.Latlngs.add(l);
         DecimalFormat df = new DecimalFormat("#.##");
-        Item.CurSpeed = Double.parseDouble(df.format(location.getSpeed()));
+        Item.CurSpeed = Double.parseDouble(df.format(location.getSpeed()*3.6/1.6));
         if(flag){
             Item.AvgSpeed = 0;
             Item.Climb = 0;

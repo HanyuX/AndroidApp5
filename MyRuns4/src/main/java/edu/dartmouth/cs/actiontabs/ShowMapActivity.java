@@ -3,6 +3,7 @@ package edu.dartmouth.cs.actiontabs;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +28,7 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
     private String id;
     private DataBaseHelper helper;
     private PolylineOptions rectOptions;
+    private String res;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +65,24 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         id = bundle.getString("ID");
         status.setText("Type: " + activityType);
         double avgspeed = bundle.getDouble("AvgSpeed");
-        avgSpeed.setText("Avg speed: " + avgspeed + " m/h");
-        curSpeed.setText("Cur Speed: n/a");
         double tclimb = bundle.getDouble("Climb");
-        climb.setText("Climb: " + tclimb + " Miles");
-        int cal = bundle.getInt("Calories");
-        calorie.setText("Calorie: " + cal);
         double dis = bundle.getDouble("Distance");
-        distance.setText("Distance: " + dis + " Miles");
+        int cal = bundle.getInt("Calories");
+        res = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Unit Preference", "Imperial (Miles)");
+        if (res.equals("Imperial (Miles)")) {
+            avgSpeed.setText("Avg speed: " + avgspeed + " m/h");
+            curSpeed.setText("Cur Speed: n/a");
+            climb.setText("Climb: " + tclimb + " Miles");
+            calorie.setText("Calorie: " + cal);
+            distance.setText("Distance: " + dis + " Miles");
+        }
+        else {
+            avgSpeed.setText("Avg speed: " + (avgspeed*1.61) + " km/h");
+            curSpeed.setText("Cur Speed: n/a");
+            climb.setText("Climb: " + (tclimb*1.61) + " Kilometers");
+            calorie.setText("Calorie: " + cal);
+            distance.setText("Distance: " + (dis*1.61) + " Kilometers");
+        }
 
         List<LatLng> list = bundle.getParcelableArrayList("List");
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(list.get(list.size() - 1),

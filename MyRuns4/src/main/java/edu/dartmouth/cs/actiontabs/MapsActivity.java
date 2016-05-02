@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Calendar mDateAndTime = Calendar.getInstance();
     private long startTime;
     private Marker startMarker, endMarker;
+    private String res;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +67,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         public void onReceive(Context context, Intent i) {
             Log.d("liu", "receive notification");
             if (binder != null) {
+                res = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Unit Preference", "Imperial (Miles)");
+                System.out.println(res);
                 item = binder.getItems();
                 status.setText("Type: " + type);
-                avgSpeed.setText("Avg speed: " + item.AvgSpeed + "m/h");
-                curSpeed.setText("Cur Speed: " + item.CurSpeed + "m/h");
-                climb.setText("Climb: " + item.Climb + " Miles");
-                int cal = (int)(item.Distance * 99.456);
-                calorie.setText("Calorie: " + cal);
-                distance.setText("Distance: " + item.Distance + " Miles");
+                if (res.equals("Imperial (Miles)")) {
+                    avgSpeed.setText("Avg speed: " + item.AvgSpeed + " m/h");
+                    curSpeed.setText("Cur Speed: " + item.CurSpeed + " m/h");
+                    climb.setText("Climb: " + item.Climb + " Miles");
+                    int cal = (int) (item.Distance * 99.456);
+                    calorie.setText("Calorie: " + cal);
+                    distance.setText("Distance: " + item.Distance + " Miles");
+                }
+                else {
+                    avgSpeed.setText("Avg speed: " + (item.AvgSpeed*1.61) + " km/h");
+                    curSpeed.setText("Cur Speed: " + (item.CurSpeed*1.61) + " km/h");
+                    climb.setText("Climb: " + (item.Climb*1.61) + " Kilometers");
+                    int cal = (int) (item.Distance * 99.456);
+                    calorie.setText("Calorie: " + cal);
+                    distance.setText("Distance: " + (item.Distance*1.61) + " Kilometers");
+                }
                 LatLng loc = item.Latlngs.get(item.Latlngs.size() - 1);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc,
                         17));
@@ -134,12 +148,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         binder = (trackingService.trackingBinder)service;
         item = binder.getItems();
         status.setText("Type: " + type);
-        avgSpeed.setText("Avg speed: " + item.AvgSpeed + "m/h");
-        curSpeed.setText("Cur Speed: " + item.CurSpeed + "m/h");
-        climb.setText("Climb: " + item.Climb + " Miles");
-        int cal = (int)(item.Distance * 99.456);
-        calorie.setText("Calorie: " + cal);
-        distance.setText("Distance: " + item.Distance + " Miles");
+        res = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Unit Preference", "Imperial (Miles)");
+        if (res.equals("Imperial (Miles)")) {
+            avgSpeed.setText("Avg speed: " + item.AvgSpeed + " m/h");
+            curSpeed.setText("Cur Speed: " + item.CurSpeed + " m/h");
+            climb.setText("Climb: " + item.Climb + " Miles");
+            int cal = (int) (item.Distance * 99.456);
+            calorie.setText("Calorie: " + cal);
+            distance.setText("Distance: " + item.Distance + " Miles");
+        }
+        else {
+            avgSpeed.setText("Avg speed: " + (item.AvgSpeed*1.61) + " km/h");
+            curSpeed.setText("Cur Speed: " + (item.CurSpeed*1.61) + " km/h");
+            climb.setText("Climb: " + (item.Climb*1.61) + " Kilometers");
+            int cal = (int) (item.Distance * 99.456);
+            calorie.setText("Calorie: " + cal);
+            distance.setText("Distance: " + (item.Distance*1.61) + " Kilometers");
+        }
         LatLng loc = item.Latlngs.get(item.Latlngs.size() - 1);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc,
                 17));
@@ -149,13 +174,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onServiceDisconnected(ComponentName name) {
+    public void onServiceDisconnected (ComponentName name) {
         status.setText("Type: " + type);
-        avgSpeed.setText("Avg speed: 0 m/h");
-        curSpeed.setText("Cur Speed: 0 m/h");
-        climb.setText("Climb: 0 Miles");
-        calorie.setText("Calorie: 0");
-        distance.setText("Distance: 0 Miles");
+        //when the res == Imperial(Miles)
+        res = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Unit Preference", "Imperial (Miles)");
+        if (res.equals("Imperial (Miles)")) {
+            avgSpeed.setText("Avg speed: 0 m/h");
+            curSpeed.setText("Cur Speed: 0 m/h");
+            climb.setText("Climb: 0 Miles");
+            calorie.setText("Calorie: 0");
+            distance.setText("Distance: 0 Miles");
+        }
+        else {
+            avgSpeed.setText("Avg speed: 0 km/h");
+            curSpeed.setText("Cur Speed: 0 km/h");
+            climb.setText("Climb: 0 Kilometers");
+            calorie.setText("Calorie: 0");
+            distance.setText("Distance: 0 Kilometers");
+        }
     }
 
     @Override

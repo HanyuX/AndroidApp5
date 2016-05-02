@@ -65,8 +65,8 @@ public class ManualEntry extends ListActivity{
 
         //Intent
         Intent intent = getIntent();
-        item.ActivityType = intent.getStringExtra("ActivityType");
-        item.InputType = intent.getStringExtra("InputType");
+        item.setActivityType(intent.getStringExtra("ActivityType"));
+        item.setInputType(intent.getStringExtra("InputType"));
 
         // Get the ListView and binds to the listener
         ListView listView = getListView();
@@ -124,10 +124,10 @@ public class ManualEntry extends ListActivity{
      * called when the save button is clicked
      */
     public void onEntrySaveClicked(View v) {
-        item.Date = mDateAndTime.get(Calendar.YEAR) +"-"+ (mDateAndTime.get(Calendar.MONTH)+1) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH);
-        item.Time = mDateAndTime.get(Calendar.HOUR_OF_DAY) +":"+ mDateAndTime.get(Calendar.MINUTE) +":"+
-                (mDateAndTime.get(Calendar.SECOND) == 0 ? "00" : mDateAndTime.get(Calendar.SECOND));
-        item.ID = System.currentTimeMillis()+"-"+item.InputType+"-"+item.ActivityType;
+        item.setDate(mDateAndTime.get(Calendar.YEAR) +"-"+ (mDateAndTime.get(Calendar.MONTH)+1) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH));
+        item.setTime(mDateAndTime.get(Calendar.HOUR_OF_DAY) +":"+ mDateAndTime.get(Calendar.MINUTE) +":"+
+                (mDateAndTime.get(Calendar.SECOND) == 0 ? "00" : mDateAndTime.get(Calendar.SECOND)));
+        item.setID(System.currentTimeMillis()+"-"+item.getInputType()+"-"+item.getActivityType());
         new asyncTask(item).execute();
         Toast.makeText(getApplicationContext(), "Entry saved.",
                 Toast.LENGTH_SHORT).show();

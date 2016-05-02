@@ -29,6 +29,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.Calendar;
 
+/*
+ *  The activity of google map
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ServiceConnection {
 
     private GoogleMap mMap;
@@ -62,6 +65,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         helper = new DataBaseHelper(getApplicationContext());
     }
 
+    /*
+     * Broadcast Receiver of tracking service
+     */
     private BroadcastReceiver onEvent = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent i) {
@@ -72,22 +78,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 item = binder.getItems();
                 status.setText("Type: " + type);
                 if (res.equals("Imperial (Miles)")) {
-                    avgSpeed.setText("Avg speed: " + item.AvgSpeed + " m/h");
-                    curSpeed.setText("Cur Speed: " + item.CurSpeed + " m/h");
-                    climb.setText("Climb: " + item.Climb + " Miles");
-                    int cal = (int) (item.Distance * 99.456);
+                    avgSpeed.setText("Avg speed: " + item.getAvgSpeed() + " m/h");
+                    curSpeed.setText("Cur Speed: " + item.getCurSpeed() + " m/h");
+                    climb.setText("Climb: " + item.getClimb() + " Miles");
+                    int cal = (int) (item.getDistance() * 99.456);
                     calorie.setText("Calorie: " + cal);
-                    distance.setText("Distance: " + item.Distance + " Miles");
+                    distance.setText("Distance: " + item.getDistance() + " Miles");
                 }
                 else {
-                    avgSpeed.setText("Avg speed: " + (item.AvgSpeed*1.61) + " km/h");
-                    curSpeed.setText("Cur Speed: " + (item.CurSpeed*1.61) + " km/h");
-                    climb.setText("Climb: " + (item.Climb*1.61) + " Kilometers");
-                    int cal = (int) (item.Distance * 99.456);
+                    avgSpeed.setText("Avg speed: " + (item.getAvgSpeed()*1.61) + " km/h");
+                    curSpeed.setText("Cur Speed: " + (item.getCurSpeed()*1.61) + " km/h");
+                    climb.setText("Climb: " + (item.getClimb()*1.61) + " Kilometers");
+                    int cal = (int) (item.getDistance() * 99.456);
                     calorie.setText("Calorie: " + cal);
-                    distance.setText("Distance: " + (item.Distance*1.61) + " Kilometers");
+                    distance.setText("Distance: " + (item.getDistance()*1.61) + " Kilometers");
                 }
-                LatLng loc = item.Latlngs.get(item.Latlngs.size() - 1);
+                LatLng loc = item.getLatlngs().get(item.getLatlngs().size() - 1);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc,
                         17));
                 rectOptions.add(loc);
@@ -113,6 +119,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
 
+    /*
+     * When map is ready, start tracking service
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -124,6 +133,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startTime = Calendar.getInstance().getTimeInMillis();
     }
 
+    /*
+     * Set up map
+     */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -143,6 +155,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
 
+    /*
+     * Callback function for tracking service
+     * Add information from service to the google map
+     */
     @Override
     public void onServiceConnected(ComponentName name, IBinder service){
         Log.d("xue","connected");
@@ -151,22 +167,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         status.setText("Type: " + type);
         res = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Unit Preference", "Imperial (Miles)");
         if (res.equals("Imperial (Miles)")) {
-            avgSpeed.setText("Avg speed: " + item.AvgSpeed + " m/h");
-            curSpeed.setText("Cur Speed: " + item.CurSpeed + " m/h");
-            climb.setText("Climb: " + item.Climb + " Miles");
-            int cal = (int) (item.Distance * 99.456);
+            avgSpeed.setText("Avg speed: " + item.getAvgSpeed() + " m/h");
+            curSpeed.setText("Cur Speed: " + item.getCurSpeed() + " m/h");
+            climb.setText("Climb: " + item.getClimb() + " Miles");
+            int cal = (int) (item.getDistance() * 99.456);
             calorie.setText("Calorie: " + cal);
-            distance.setText("Distance: " + item.Distance + " Miles");
+            distance.setText("Distance: " + item.getDistance() + " Miles");
         }
         else {
-            avgSpeed.setText("Avg speed: " + (item.AvgSpeed*1.61) + " km/h");
-            curSpeed.setText("Cur Speed: " + (item.CurSpeed*1.61) + " km/h");
-            climb.setText("Climb: " + (item.Climb*1.61) + " Kilometers");
-            int cal = (int) (item.Distance * 99.456);
+            avgSpeed.setText("Avg speed: " + (item.getAvgSpeed()*1.61) + " km/h");
+            curSpeed.setText("Cur Speed: " + (item.getCurSpeed()*1.61) + " km/h");
+            climb.setText("Climb: " + (item.getClimb()*1.61) + " Kilometers");
+            int cal = (int) (item.getDistance() * 99.456);
             calorie.setText("Calorie: " + cal);
-            distance.setText("Distance: " + (item.Distance*1.61) + " Kilometers");
+            distance.setText("Distance: " + (item.getDistance()*1.61) + " Kilometers");
         }
-        LatLng loc = item.Latlngs.get(item.Latlngs.size() - 1);
+        LatLng loc = item.getLatlngs().get(item.getLatlngs().size() - 1);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc,
                 17));
         rectOptions = new PolylineOptions().add(loc);
@@ -174,6 +190,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 BitmapDescriptorFactory.HUE_GREEN)));
     }
 
+    /*
+     * When service disconnected, delete all information on google map
+     */
     @Override
     public void onServiceDisconnected (ComponentName name) {
         status.setText("Type: " + type);
@@ -195,6 +214,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    /*
+     * When the activity is destroyed, disconnect with tracking service
+     */
     @Override
     public void onDestroy(){
         super.onDestroy();
@@ -203,16 +225,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         unregisterReceiver(onEvent);
     }
 
+    /*
+     * Save map to database
+     */
     public void saveMap(View view) {
-        item.ActivityType = type;
-        item.InputType = inputType;
-        item.ID = System.currentTimeMillis()+"-"+item.InputType+"-"+item.ActivityType;
-        item.Calories = (int)(item.Distance * 99.456);
-        item.Date = mDateAndTime.get(Calendar.YEAR) +"-"+ (mDateAndTime.get(Calendar.MONTH)+1) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH);
-        item.Time = mDateAndTime.get(Calendar.HOUR_OF_DAY) +":"+ mDateAndTime.get(Calendar.MINUTE) +":"+
-                (mDateAndTime.get(Calendar.SECOND) == 0 ? "00" : mDateAndTime.get(Calendar.SECOND));
+        item.setActivityType(type);
+        item.setInputType(inputType);
+        item.setID(System.currentTimeMillis()+"-"+item.getInputType()+"-"+item.getActivityType());
+        item.setCalories((int)(item.getDistance() * 99.456));
+        item.setDate(mDateAndTime.get(Calendar.YEAR) +"-"+ (mDateAndTime.get(Calendar.MONTH)+1) +"-"+ mDateAndTime.get(Calendar.DAY_OF_MONTH));
+        item.setTime(mDateAndTime.get(Calendar.HOUR_OF_DAY) +":"+ mDateAndTime.get(Calendar.MINUTE) +":"+
+                (mDateAndTime.get(Calendar.SECOND) == 0 ? "00" : mDateAndTime.get(Calendar.SECOND)));
         long nowTime = Calendar.getInstance().getTimeInMillis();
-        item.Duration = (nowTime - startTime) / (1000 * 60 * 1.0);
+        item.setDuration((nowTime - startTime) / (1000 * 60 * 1.0));
         new asyncTask(item).execute();
         finish();
     }
@@ -221,6 +246,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         finish();
     }
 
+    /*
+     * Async task for add item to database
+     */
     class asyncTask extends AsyncTask<Void, Void, Integer> {
         private databaseItem item;
 

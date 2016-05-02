@@ -53,24 +53,6 @@ public class DataBaseHelper extends SQLiteOpenHelper{
      * add an item into the database
      */
     public void addItem(databaseItem item){
-//        try {
-//            SQLiteDatabase db = this.getWritableDatabase();
-//            String sqlAdd = "insert into " + TABLE_NAME + " (ID, Date, Time, Duration, Distance, Calories, " +
-//                    "HeartRate, Comment, InputType, ActivityType, Climb, AvgSpeed, CurSpeed, Positions) values ('" +
-//                    (item.ID.equals("") ? "-1" : item.ID) +"','"+
-//                    (item.Date.equals("") ? "0" : item.Date) +"','"+
-//                    (item.Time.equals("") ? "0" : item.Time) +"',"+
-//                    (item.Duration < 0 ? 0 : item.Duration)  +","+
-//                    (item.Distance < 0 ? 0 : item.Distance)  +","+
-//                    (item.Calories < 0 ? 0 : item.Calories)  +","+
-//                    (item.HeartRate < 0 ? 0 : item.HeartRate)+",'"+
-//                    (item.Comment.equals("") ? "0" : item.Comment) + "','" +
-//                    (item.InputType.equals("") ? "0" : item.InputType) +"','"+
-//                    (item.ActivityType.equals("") ? "0" : item.ActivityType) +"')";
-//            db.execSQL(sqlAdd);
-//        }catch (Exception exc){
-//            Log.d("addItem", exc.getMessage());
-//        }
         try{
             SQLiteDatabase db = this.getWritableDatabase();
             String sql   =   "INSERT INTO " + TABLE_NAME + " (ID, Date, Time, Duration, Distance, Calories, " +
@@ -79,20 +61,20 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 
             SQLiteStatement insertStmt = db.compileStatement(sql);
             insertStmt.clearBindings();
-            insertStmt.bindString(1, item.ID.equals("") ? "-1" : item.ID);
-            insertStmt.bindString(2, item.Date.equals("") ? "0" : item.Date);
-            insertStmt.bindString(3, item.Time.equals("") ? "0" : item.Time);
-            insertStmt.bindDouble(4, item.Duration < 0 ? 0 : item.Duration);
-            insertStmt.bindDouble(5, item.Distance < 0 ? 0 : item.Distance);
-            insertStmt.bindDouble(6, item.Calories < 0 ? 0 : item.Calories);
-            insertStmt.bindDouble(7, item.HeartRate < 0 ? 0 : item.HeartRate);
-            insertStmt.bindString(8, item.Comment.equals("") ? "0" : item.Comment);
-            insertStmt.bindString(9, item.InputType.equals("") ? "0" : item.InputType);
-            insertStmt.bindString(10, item.ActivityType.equals("") ? "0" : item.ActivityType);
-            insertStmt.bindDouble(11, item.Climb < 0 ? 0 : item.Climb);
-            insertStmt.bindDouble(12, item.AvgSpeed < 0 ? 0 : item.AvgSpeed);
-            insertStmt.bindDouble(13, item.CurSpeed < 0 ? 0 : item.CurSpeed);
-            insertStmt.bindBlob(14, getLocationByteArray(item.Latlngs));
+            insertStmt.bindString(1, item.getID().equals("") ? "-1" : item.getID());
+            insertStmt.bindString(2, item.getDate().equals("") ? "0" : item.getDate());
+            insertStmt.bindString(3, item.getTime().equals("") ? "0" : item.getTime());
+            insertStmt.bindDouble(4, item.getDuration() < 0 ? 0 : item.getDuration());
+            insertStmt.bindDouble(5, item.getDistance() < 0 ? 0 : item.getDistance());
+            insertStmt.bindDouble(6, item.getCalories() < 0 ? 0 : item.getCalories());
+            insertStmt.bindDouble(7, item.getHeartRate() < 0 ? 0 : item.getHeartRate());
+            insertStmt.bindString(8, item.getComment().equals("") ? "0" : item.getComment());
+            insertStmt.bindString(9, item.getInputType().equals("") ? "0" : item.getInputType());
+            insertStmt.bindString(10, item.getActivityType().equals("") ? "0" : item.getActivityType());
+            insertStmt.bindDouble(11, item.getClimb() < 0 ? 0 : item.getClimb());
+            insertStmt.bindDouble(12, item.getAvgSpeed() < 0 ? 0 : item.getAvgSpeed());
+            insertStmt.bindDouble(13, item.getCurSpeed() < 0 ? 0 : item.getCurSpeed());
+            insertStmt.bindBlob(14, getLocationByteArray(item.getLatlngs()));
             insertStmt.executeInsert();
 
             db.setTransactionSuccessful();

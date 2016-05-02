@@ -37,14 +37,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private ServiceConnection mConnection = this;
     private trackingService.trackingBinder binder;
-    private databaseItem item;
-    private TextView status, avgSpeed, curSpeed, climb, calorie, distance;
+    private databaseItem item;                                                  //define the database entry
+    private TextView status, avgSpeed, curSpeed, climb, calorie, distance;      //the textview showed in the activity
     private String type, inputType;
-    private PolylineOptions rectOptions;
+    private PolylineOptions rectOptions;                                        //the drawing line
     private DataBaseHelper helper;
     private Calendar mDateAndTime = Calendar.getInstance();
     private long startTime;
-    private Marker startMarker, endMarker;
+    private Marker startMarker, endMarker;                                      //the mark for start and end
     private String res;
 
     @Override

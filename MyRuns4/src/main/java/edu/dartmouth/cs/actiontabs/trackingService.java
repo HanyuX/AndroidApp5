@@ -13,7 +13,6 @@ import android.location.LocationManager;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -27,11 +26,11 @@ import java.util.Calendar;
 public class trackingService extends Service {
     private final IBinder mBinder = new trackingBinder();
     private databaseItem Item = new databaseItem();
-    private double lastAltitude = 0;
-    private double lastLongtitude = 0;
-    private double lastLatitude = 0;
+    private double lastAltitude = 0;                               //indicate the last altitude
+    private double lastLongtitude = 0;                             //indicate the last longtitude
+    private double lastLatitude = 0;                               //indicate the last latitude
     private Long startTime;
-    private double Ra = 6371.004*0.621371192;
+    private double Ra = 6371.004*0.621371192;                      //radius of the earth
     private double Pi = 3.1415926;
     private NotificationManager notificationManager;
     public static final String ACTION_UPDATE = "Update_Location";
@@ -109,8 +108,7 @@ public class trackingService extends Service {
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        stopService(new Intent(this, this.getClass()));
-        notificationManager.cancelAll();
+        super.onTaskRemoved(rootIntent);
     }
 
     public class trackingBinder extends Binder {

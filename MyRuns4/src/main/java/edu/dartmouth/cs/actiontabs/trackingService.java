@@ -101,6 +101,12 @@ public class trackingService extends Service {
         sendBroadcast(new Intent(ACTION_UPDATE));
     }
 
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        stopService(new Intent(this, this.getClass()));
+        notificationManager.cancelAll();
+    }
+
     public class trackingBinder extends Binder {
         public databaseItem getItems() {
             return Item;

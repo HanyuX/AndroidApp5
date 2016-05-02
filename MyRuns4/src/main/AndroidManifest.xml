@@ -63,7 +63,8 @@
             android:label="@string/title_activity_maps"
             android:launchMode="singleInstance"/>
 
-        <service android:name=".trackingService" />
+        <service android:name=".trackingService"
+            android:stopWithTask="false"/>
 
         <activity
             android:name=".ShowMapActivity"

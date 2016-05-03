@@ -15,11 +15,13 @@ public class MainActivity extends Activity {
     private ArrayList<Fragment> fragments;
     private ActionTabsViewPagerAdapter myViewPageAdapter;
 
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+    /**
+     * Called when the activity is first created.
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
 
         // Define SlidingTabLayout (shown at top)
         // and ViewPager (shown at bottom) in the layout.
@@ -35,18 +37,13 @@ public class MainActivity extends Activity {
 
         // use FragmentPagerAdapter to bind the slidingTabLayout (tabs with different titles)
         // and ViewPager (different pages of fragment) together.
-        myViewPageAdapter =new ActionTabsViewPagerAdapter(getFragmentManager(),
+        myViewPageAdapter = new ActionTabsViewPagerAdapter(getFragmentManager(),
                 fragments);
         viewPager.setAdapter(myViewPageAdapter);
 
-        // make sure the tabs are equally spaced.
-        slidingTabLayout.setDistributeEvenly(true);
-        slidingTabLayout.setViewPager(viewPager);
-
-        slidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
 
             }
 
@@ -63,5 +60,8 @@ public class MainActivity extends Activity {
 
             }
         });
-	}
+        // make sure the tabs are equally spaced.
+        slidingTabLayout.setDistributeEvenly(true);
+        slidingTabLayout.setViewPager(viewPager);
+    }
 }
